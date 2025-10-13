@@ -1,0 +1,1099 @@
+/* ========================================
+   LUXURY NAILS & BEAUTY SALON - STYLESHEET
+   ======================================== */
+
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Luxury color palette */
+    --beige: #F5F5DC;
+    --pale-gold: #F0E2A2;
+    --white: #FFFFFF;
+    --text-dark: #3C3C3C;
+    --gold-accent: #D4AF37;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    background-color: var(--white);
+    /* MOBILE: Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* MOBILE: Prevent text size adjustment */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* MOBILE: Improve tap highlighting */
+* {
+    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.2);
+    -webkit-touch-callout: none;
+}
+
+/* MOBILE: Better button/link touch targets */
+a, button, .service-header {
+    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.2);
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    box-shadow: 0 2px 10px var(--shadow);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--gold-accent);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* UPGRADED: Added text-shadow transition */
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold-accent);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--gold-accent);
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3); /* UPGRADED: Subtle gold glow */
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Mobile menu button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    /* MOBILE: Better touch target */
+    padding: 8px;
+    margin: -8px;
+    position: relative;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--gold-accent);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* ========================================
+   HERO SECTION WITH IMAGE SLIDER
+   ======================================== */
+.hero {
+    margin-top: 80px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    overflow: hidden; /* UPGRADED: Added for slider */
+}
+
+/* UPGRADED: Hero slider container and slides */
+.hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out; /* UPGRADED: Smooth fade transition */
+    /* UPGRADED: Dark overlay for text readability */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+    /* MOBILE: Optimize image rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    /* UPGRADED: Ken Burns zoom effect - subtle animation */
+    animation: kenBurns 10s ease-out infinite;
+}
+
+/* UPGRADED: Ken Burns (zoom-in) effect for movement */
+@keyframes kenBurns {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* UPGRADED: Hero content now sits above slider */
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-primary {
+    padding: 1rem 3rem;
+    background: var(--gold-accent);
+    color: var(--white);
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+    background: var(--pale-gold);
+    color: var(--text-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); /* UPGRADED: Enhanced gold glow */
+}
+
+/* UPGRADED: Secondary button style for fallback link */
+.btn-secondary {
+    padding: 0.8rem 2rem;
+    background: var(--beige);
+    color: var(--text-dark);
+    border: 2px solid var(--gold-accent);
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: var(--gold-accent);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5);
+}
+
+/* ADDED: Inline book button with icon */
+.inline-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.inline-book-btn i {
+    font-size: 1rem;
+}
+
+/* ========================================
+   SECTION COMMON STYLES
+   ======================================== */
+section {
+    padding: 5rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* UPGRADED: Scroll animation - sections start hidden and fade in */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--gold-accent);
+    letter-spacing: 2px;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    color: var(--text-dark);
+    font-style: italic;
+}
+
+/* ========================================
+   SERVICES SECTION
+   ======================================== */
+#services {
+    background: var(--beige);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+}
+
+.service-card h3 {
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.service-card h3::before {
+    content: '✦';
+    font-size: 1.2rem;
+}
+
+.service-card h3::after {
+    content: '▼';
+    font-size: 0.8rem;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.service-card h3.active::after {
+    transform: rotate(180deg);
+}
+
+.service-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.service-list.active {
+    max-height: 500px;
+}
+
+.service-list ul {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+.service-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--beige);
+    display: flex;
+    justify-content: space-between;
+}
+
+.service-list li:last-child {
+    border-bottom: none;
+}
+
+.service-price {
+    color: var(--gold-accent);
+    font-weight: bold;
+}
+
+/* ========================================
+   GALLERY SECTION
+   ======================================== */
+#gallery {
+    background: var(--white);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 300px;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.8));
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay p {
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* ========================================
+   ABOUT & CONTACT SECTION
+   ======================================== */
+#about {
+    background: var(--pale-gold);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.about-text h3 {
+    color: var(--gold-accent);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.about-text p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.contact-info {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px var(--shadow);
+}
+
+.contact-info h3 {
+    color: var(--gold-accent);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.contact-item i {
+    color: var(--gold-accent);
+    font-size: 1.3rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.contact-item span {
+    flex: 1;
+}
+
+.map-container {
+    margin-top: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+    background: var(--text-dark);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    color: var(--pale-gold);
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.social-links a:hover {
+    color: var(--gold-accent);
+    background: rgba(212, 175, 55, 0.2);
+    transform: translateY(-3px);
+}
+
+/* ========================================
+   BOOKING MODAL
+   ======================================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--pale-gold);
+}
+
+.modal-header h2 {
+    color: var(--gold-accent);
+    font-size: 2rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal:hover {
+    color: var(--gold-accent);
+}
+
+.booking-iframe {
+    width: 100%;
+    min-height: 650px; /* UPGRADED: Changed to min-height for better responsiveness */
+    height: 650px;
+    border: none;
+    border-radius: 10px; /* UPGRADED: Rounded corners */
+    box-shadow: 0 4px 15px var(--shadow); /* UPGRADED: Soft box shadow */
+}
+
+/* UPGRADED: Fallback button container styling */
+.booking-fallback {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--beige);
+}
+
+/* ========================================
+   FLOATING BOOK NOW BUTTON
+   ======================================== */
+.floating-book-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, var(--gold-accent) 0%, #C19A2E 100%);
+    color: var(--white);
+    border: none;
+    padding: 1rem 1.8rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    /* Animation */
+    animation: floatingPulse 2s ease-in-out infinite;
+}
+
+.floating-book-btn i {
+    font-size: 1.2rem;
+}
+
+.floating-book-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 35px rgba(212, 175, 55, 0.7);
+    background: linear-gradient(135deg, #E5C84D 0%, var(--gold-accent) 100%);
+}
+
+.floating-book-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Pulse animation */
+@keyframes floatingPulse {
+    0%, 100% {
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+    }
+    50% {
+        box-shadow: 0 6px 35px rgba(212, 175, 55, 0.8);
+    }
+}
+
+/* Hide on hero section */
+.floating-book-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE OPTIMIZED
+   ======================================== */
+
+/* Tablet & Mobile (768px and below) */
+@media (max-width: 768px) {
+    /* MOBILE: Header improvements */
+    header {
+        padding: 0.5rem 3%;
+    }
+    
+    .menu-toggle {
+        display: flex;
+        z-index: 1001;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--white);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s ease;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    .nav-links li {
+        margin: 1rem 0;
+    }
+    
+    .nav-links a {
+        font-size: 1.3rem;
+        padding: 1rem;
+    }
+
+    /* MOBILE: Hero section */
+    .hero {
+        height: 70vh;
+        margin-top: 60px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* MOBILE: Buttons - touch friendly */
+    .btn-primary {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+        min-height: 48px; /* Touch target minimum */
+    }
+    
+    .btn-secondary {
+        padding: 0.9rem 2rem;
+        min-height: 48px;
+    }
+
+    /* MOBILE: Sections */
+    section {
+        padding: 2.5rem 5%;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    /* MOBILE: Service cards - better touch experience */
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .service-card {
+        padding: 1.5rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.3rem;
+        padding: 0.5rem 0;
+        min-height: 48px; /* Touch friendly */
+        align-items: center;
+    }
+    
+    .service-list li {
+        padding: 0.8rem 0;
+        font-size: 0.95rem;
+    }
+
+    /* MOBILE: Gallery grid */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .gallery-item {
+        height: 250px;
+    }
+
+    /* MOBILE: About section */
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-text h3 {
+        font-size: 1.5rem;
+    }
+    
+    .about-text p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    /* MOBILE: Contact info */
+    .contact-info {
+        padding: 1.5rem;
+    }
+    
+    .contact-item {
+        font-size: 0.95rem;
+        flex-wrap: wrap;
+        padding: 0.5rem 0;
+    }
+    
+    .contact-item i {
+        font-size: 1.2rem;
+    }
+
+    /* MOBILE: Modal improvements */
+    .modal {
+        padding: 1rem;
+    }
+    
+    .modal-content {
+        padding: 1rem;
+        max-height: 95vh;
+        border-radius: 15px;
+    }
+    
+    .modal-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .close-modal {
+        width: 48px;
+        height: 48px;
+        font-size: 1.8rem;
+    }
+
+    .booking-iframe {
+        height: 500px;
+        min-height: 450px;
+        border-radius: 8px;
+    }
+
+    /* MOBILE: Footer */
+    footer {
+        padding: 1.5rem 5%;
+        font-size: 0.9rem;
+    }
+    
+    .social-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .social-links a {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    /* MOBILE: Disable animations for better performance */
+    .hero-slide.active {
+        animation: none;
+    }
+    
+    .animate-on-scroll {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* MOBILE: Floating button adjustments */
+    .floating-book-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .floating-book-btn i {
+        font-size: 1.1rem;
+    }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    /* SMALL MOBILE: Reduce padding */
+    body {
+        font-size: 15px;
+    }
+    
+    header {
+        padding: 0.5rem 4%;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    /* SMALL MOBILE: Hero */
+    .hero {
+        height: 60vh;
+        margin-top: 55px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.6rem;
+        letter-spacing: 0.5px;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        padding: 0.9rem 2rem;
+        font-size: 0.95rem;
+    }
+
+    /* SMALL MOBILE: Sections */
+    section {
+        padding: 2rem 4%;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* SMALL MOBILE: Service cards */
+    .service-card {
+        padding: 1.2rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .service-list li {
+        padding: 0.7rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .service-price {
+        font-size: 0.9rem;
+    }
+
+    /* SMALL MOBILE: Gallery */
+    .gallery-item {
+        height: 200px;
+    }
+
+    /* SMALL MOBILE: Contact */
+    .contact-info {
+        padding: 1.2rem;
+    }
+    
+    .contact-item {
+        font-size: 0.9rem;
+    }
+    
+    .map-container iframe {
+        height: 250px;
+    }
+
+    /* SMALL MOBILE: Modal */
+    .modal {
+        padding: 0.5rem;
+    }
+    
+    .modal-content {
+        padding: 0.8rem;
+        border-radius: 10px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .booking-iframe {
+        height: 450px;
+        min-height: 400px;
+    }
+
+    /* SMALL MOBILE: Footer */
+    footer p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    /* SMALL MOBILE: Floating button - compact */
+    .floating-book-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        border-radius: 40px;
+    }
+    
+    .floating-book-btn span {
+        display: inline; /* Keep text on small mobile */
+    }
+}
+
+/* Extra Small Devices (360px and below) */
+@media (max-width: 360px) {
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.4rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .btn-primary {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    /* EXTRA SMALL: Floating button - icon only option */
+    .floating-book-btn {
+        padding: 0.9rem;
+        min-width: 56px;
+        min-height: 56px;
+        border-radius: 50%;
+    }
+    
+    .floating-book-btn span {
+        display: none; /* Hide text, show icon only */
+    }
+    
+    .floating-book-btn i {
+        font-size: 1.4rem;
+        margin: 0;
+    }
+}
+

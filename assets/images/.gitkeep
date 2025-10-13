@@ -1,0 +1,21 @@
+# Thư mục chứa hình ảnh
+# Images folder
+
+## UPGRADED - Hero Slider Images Required:
+Thêm 4 ảnh cho slider với tên sau:
+Add 4 images for the slider with these names:
+
+1. **slide1.jpg** - Ảnh chính cho hero slider (nail salon interior/luxury spa)
+2. **slide2.jpg** - Ảnh thứ 2 (elegant manicure close-up)
+3. **slide3.jpg** - Ảnh thứ 3 (pedicure station/spa treatment)
+4. **slide4.jpg** - Ảnh thứ 4 (nail art designs/beauty products)
+
+Kích thước đề nghị: 1920x1080px hoặc tỷ lệ 16:9
+Recommended size: 1920x1080px or 16:9 ratio
+
+## Lưu ý / Note:
+- Website sẽ tự động fallback về ảnh Unsplash nếu không tìm thấy ảnh local
+- The website will automatically fallback to Unsplash images if local images are not found
+- Ảnh nên có độ sáng trung bình để text trắng dễ đọc
+- Images should have medium brightness so white text is readable
+
