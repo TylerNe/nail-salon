@@ -1,0 +1,46 @@
+{
+  "appId": "com.staffrevenue.manager",
+  "productName": "Staff Revenue Manager",
+  "directories": {
+    "output": "dist",
+    "buildResources": "assets"
+  },
+  "files": [
+    "**/*",
+    "!node_modules/**/*",
+    "!dist/**/*",
+    "!*.md",
+    "!assets/icon.png",
+    "node_modules/better-sqlite3/**/*",
+    "node_modules/tabulator-tables/**/*",
+    "node_modules/xlsx/**/*",
+    "node_modules/chart.js/**/*"
+  ],
+  "extraResources": [
+    {
+      "from": "assets/icon.png",
+      "to": "icon.png"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "assets/icon.png",
+    "requestedExecutionLevel": "asInvoker",
+    "sign": false,
+    "verifyUpdateCodeSignature": false,
+    "certificateFile": null,
+    "certificatePassword": null
+  },
+  "portable": {
+    "artifactName": "${productName}-${version}-${arch}-portable.${ext}"
+  }
+}

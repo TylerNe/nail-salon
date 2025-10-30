@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precison Nail</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="keypad.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.2/css/tabulator.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1><img src="assets/icon.png" alt="Logo" class="header-logo"> Precison Nail</h1>
+            </div>
+            <div class="header-right">
+                <div class="network-info" id="networkInfo">
+                    <span class="network-label">🌐 Network:</span>
+                    <span class="network-url" id="networkUrl">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="dashboard">
+                <i class="fas fa-table"></i> Dashboard
+            </button>
+            <button class="tab-btn" data-tab="statistics">
+                <i class="fas fa-chart-bar"></i> Thống kê
+            </button>
+            <button class="tab-btn" data-tab="expenses">
+                <i class="fas fa-receipt"></i> Chi tiêu
+            </button>
+            <button class="tab-btn" data-tab="staff">
+                <i class="fas fa-users"></i> Quản lý Staff
+            </button>
+            <button class="tab-btn" data-tab="work-schedule">
+                <i class="fas fa-calendar-alt"></i> Lịch làm việc
+            </button>
+            <button class="tab-btn" data-tab="transactions">
+                <i class="fas fa-history"></i> Lịch sử giao dịch
+            </button>
+            <button class="tab-btn" data-tab="gift-cards">
+                <i class="fas fa-gift"></i> Gift Cards
+            </button>
+            <button class="tab-btn" data-tab="payroll" title="Yêu cầu mật khẩu">
+                <i class="fas fa-lock"></i> Payroll & Shifts
+            </button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <!-- Controls -->
+            <div class="controls-section">
+                <div class="control-group">
+                    <label for="dateFilter">Chọn ngày:</label>
+                    <input type="date" id="dateFilter" class="form-control">
+                    <button id="refreshBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="control-group">
+                    <label for="staffSearch">Tìm kiếm staff:</label>
+                    <input type="text" id="staffSearch" placeholder="Nhập tên staff..." class="form-control">
+                </div>
+            </div>
+
+
+            <!-- Main Table -->
+            <div class="table-section">
+                <h3><i class="fas fa-table"></i> Bảng Doanh Thu</h3>
+                <div id="revenueTable"></div>
+            </div>
+
+            <!-- Entries Detail Table -->
+            <div class="table-section">
+                <h3><i class="fas fa-list"></i> Chi Tiết Entries</h3>
+                <div id="entriesDetailTable"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div id="statistics" class="tab-content">
+            <div class="stats-controls">
+                <div class="control-group">
+                    <label for="statsPeriod">Chu kỳ:</label>
+                    <select id="statsPeriod" class="form-control">
+                        <option value="daily">Theo ngày</option>
+                        <option value="weekly">Theo tuần</option>
+                        <option value="monthly" selected>Theo tháng</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="statsStartDate">Từ ngày:</label>
+                    <input type="date" id="statsStartDate" class="form-control">
+                </div>
+                
+                <div class="control-group">
+                    <label for="statsEndDate">Đến ngày:</label>
+                    <input type="date" id="statsEndDate" class="form-control">
+                </div>
+                
+                <button id="loadStatsBtn" class="btn btn-primary">
+                    <i class="fas fa-chart-bar"></i> Tải thống kê
+                </button>
+            </div>
+            
+            <div class="stats-content">
+                <div class="stats-chart">
+                    <canvas id="statsChart"></canvas>
+                </div>
+                
+                <div class="stats-table">
+                    <div id="statsTable"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Expenses Tab -->
+        <div id="expenses" class="tab-content">
+            <div class="expenses-header">
+                <h2><i class="fas fa-receipt"></i> Chi Tiêu Hàng Ngày</h2>
+                <div class="expenses-controls">
+                    <div class="control-group">
+                        <label for="expenseDateFilter">Chọn ngày:</label>
+                        <input type="date" id="expenseDateFilter" class="form-control">
+                    </div>
+                    <button id="addExpenseBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Thêm Chi Tiêu
+                    </button>
+                </div>
+            </div>
+            
+            <div class="expenses-summary">
+                <div class="summary-card">
+                    <div class="card-icon" style="background: #dc3545;">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-label">Tổng Chi Tiêu Hôm Nay</div>
+                        <div class="card-value" id="todayExpensesTotal">$0.00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="expenses-table-container">
+                <div class="table-header">
+                    <h3>Danh Sách Chi Tiêu</h3>
+                    <div class="table-controls">
+                        <input type="text" id="expenseSearch" placeholder="Tìm kiếm..." class="form-control">
+                        <select id="expenseCategoryFilter" class="form-control">
+                            <option value="">Tất cả loại</option>
+                            <option value="materials">Vật liệu</option>
+                            <option value="utilities">Điện nước</option>
+                            <option value="rent">Thuê mặt bằng</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="expensesTable"></div>
+            </div>
+        </div>
+
+        <!-- Staff Management Tab -->
+        <div id="staff" class="tab-content">
+            <div class="staff-controls">
+                <h3><i class="fas fa-users"></i> Quản lý Staff</h3>
+                <form id="addStaffForm" class="staff-form">
+                    <div class="form-row">
+                        <input type="text" id="staffName" placeholder="Tên staff mới..." class="form-control" required>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Thêm Staff
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="staff-list">
+                <div id="staffTable"></div>
+            </div>
+        </div>
+
+        <!-- Work Schedule Tab -->
+        <div id="work-schedule" class="tab-content">
+            <div class="work-schedule-controls">
+                <h3><i class="fas fa-calendar-alt"></i> Quản lý Lịch Làm Việc</h3>
+                <div class="control-group">
+                    <label for="scheduleDateFilter">Chọn ngày:</label>
+                    <input type="date" id="scheduleDateFilter" class="form-control">
+                </div>
+            </div>
+            
+            <div class="work-schedule-section">
+                <h4><i class="fas fa-users"></i> Danh Sách Nhân Viên</h4>
+                <div id="workScheduleListContainer" class="work-schedule-list-container"></div>
+            </div>
+            
+            <div class="work-schedule-summary">
+                <h4><i class="fas fa-info-circle"></i> Thông Tin</h4>
+                <p>Chỉ những nhân viên được đánh dấu có ngày làm việc mới xuất hiện trong bảng doanh thu.</p>
+                <p>Nhân viên không có ngày làm việc sẽ không thể nhập doanh thu.</p>
+                <p><strong>Liên kết với Payroll:</strong> Khi thêm/xóa ngày làm việc, hệ thống sẽ tự động tạo/xóa ca làm việc trong Payroll & Shifts.</p>
+            </div>
+        </div>
+
+        <!-- Transactions Tab -->
+        <div id="transactions" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Lịch sử giao dịch</h2>
+                <div class="controls">
+                    <input type="date" id="transactionsStartDate" placeholder="Từ ngày" class="form-control">
+                    <input type="date" id="transactionsEndDate" placeholder="Đến ngày" class="form-control">
+                    <select id="transactionsStaffFilter" class="form-control">
+                        <option value="">Tất cả nhân viên</option>
+                    </select>
+                    <select id="transactionsPaymentFilter" class="form-control">
+                        <option value="">Tất cả phương thức</option>
+                        <option value="cash">Tiền mặt</option>
+                        <option value="card">Thẻ</option>
+                        <option value="gift_card">Gift Card</option>
+                    </select>
+                    <button id="loadTransactionsBtn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Tìm kiếm
+                    </button>
+                    <button id="exportTransactionsBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Xuất Excel
+                    </button>
+                </div>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>Tổng tiền mặt</h3>
+                    <span id="totalCash">$0.00</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Tổng thẻ</h3>
+                    <span id="totalCard">$0.00</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Tổng Gift Card</h3>
+                    <span id="totalGiftCard">$0.00</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Tổng giao dịch</h3>
+                    <span id="totalTransactions">0</span>
+                </div>
+            </div>
+            
+            <div id="transactionsTable"></div>
+        </div>
+
+        <!-- Gift Cards Tab -->
+        <div id="gift-cards" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-gift"></i> Quản lý Gift Cards</h2>
+                <div class="controls">
+                    <button id="createGiftCardBtn" class="btn btn-primary" onclick="openCreateGiftCardDialog()">
+                        <i class="fas fa-plus"></i> Tạo Gift Card
+                    </button>
+                    <input type="text" id="giftCardSearch" placeholder="Tìm kiếm theo số thẻ, tên, SĐT..." class="form-control">
+                    <select id="giftCardStatusFilter" class="form-control">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active">Đang hoạt động</option>
+                        <option value="used">Đã sử dụng</option>
+                        <option value="expired">Hết hạn</option>
+                        <option value="cancelled">Đã hủy</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>Tổng Gift Cards</h3>
+                    <span id="totalGiftCards">0</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Tổng giá trị</h3>
+                    <span id="totalGiftCardValue">$0.00</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Số dư còn lại</h3>
+                    <span id="totalGiftCardBalance">$0.00</span>
+                </div>
+                <div class="summary-card">
+                    <h3>Đã sử dụng</h3>
+                    <span id="totalGiftCardUsed">$0.00</span>
+                </div>
+            </div>
+            
+            <div id="giftCardsTable"></div>
+        </div>
+
+        <!-- Payroll & Shifts Tab (Protected) -->
+        <div id="payroll" class="tab-content">
+            <!-- Password Unlock Screen -->
+            <div id="payrollLockScreen" class="lock-screen">
+                <div class="lock-container">
+                    <div class="lock-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2>Khu Vực Bảo Mật</h2>
+                    <p>Nhập mật khẩu để truy cập Payroll & Shifts</p>
+                    <form id="unlockPayrollForm">
+                        <input type="password" id="payrollPassword" class="form-control password-input" 
+                               placeholder="Nhập mật khẩu..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-unlock"></i> Mở Khóa
+                        </button>
+                    </form>
+                    
+                </div>
+            </div>
+
+            <!-- Payroll Content (Hidden until unlocked) -->
+            <div id="payrollContent" class="payroll-content" style="display: none;">
+                <!-- Lock button -->
+                <div class="payroll-header">
+                    <button id="lockPayrollBtn" class="btn btn-danger">
+                        <i class="fas fa-lock"></i> Khóa Lại
+                    </button>
+                    <button id="changePasswordBtn" class="btn btn-secondary">
+                        <i class="fas fa-key"></i> Đổi Mật Khẩu
+                    </button>
+                </div>
+
+                <!-- Sub-tabs for Payroll features -->
+                <nav class="payroll-sub-tabs">
+                    <button class="payroll-tab-btn active" data-payroll-tab="shifts">
+                        <i class="fas fa-calendar-check"></i> Shifts
+                    </button>
+                    <button class="payroll-tab-btn" data-payroll-tab="rates">
+                        <i class="fas fa-dollar-sign"></i> Rates
+                    </button>
+                    <button class="payroll-tab-btn" data-payroll-tab="income">
+                        <i class="fas fa-chart-line"></i> Income Reports
+                    </button>
+                    <button class="payroll-tab-btn" data-payroll-tab="settings-payroll">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </nav>
+
+                <!-- Shifts Sub-tab -->
+                <div id="shifts" class="payroll-tab-content active">
+                    <div class="controls-section">
+                        <div class="control-group">
+                            <label for="shiftsDateFilter">Chọn ngày:</label>
+                            <input type="date" id="shiftsDateFilter" class="form-control">
+                        </div>
+                    </div>
+                    <div class="shifts-section">
+                        <h3><i class="fas fa-users"></i> Danh Sách Ca Làm Việc</h3>
+                        <div id="shiftsListContainer" class="shifts-list-container"></div>
+                    </div>
+                </div>
+
+                <!-- Rates Sub-tab -->
+                <div id="rates" class="payroll-tab-content">
+                    <div class="rates-section">
+                        <h3><i class="fas fa-money-bill-wave"></i> Lương Mặc Định Theo Staff</h3>
+                        <div class="rates-table-container">
+                            <table class="rates-table" id="ratesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Staff</th>
+                                        <th>Lương mặc định (AUD)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ratesTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Income Reports Sub-tab -->
+                <div id="income" class="payroll-tab-content">
+                    <div class="controls-section">
+                        <div class="control-group">
+                            <label for="incomeStartDate">Từ ngày:</label>
+                            <input type="date" id="incomeStartDate" class="form-control">
+                        </div>
+                        <div class="control-group">
+                            <label for="incomeEndDate">Đến ngày:</label>
+                            <input type="date" id="incomeEndDate" class="form-control">
+                        </div>
+                        <button id="loadIncomeBtn" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i> Tải Báo Cáo
+                        </button>
+                        <button id="exportIncomeBtn" class="btn btn-success">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #28a745;">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">Total Gross</div>
+                                <div class="card-value" id="totalGross">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #ffc107;">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">Total Wages</div>
+                                <div class="card-value" id="totalWages">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #17a2b8;">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">Total Rent</div>
+                                <div class="card-value" id="totalRent">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #dc3545;">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">Daily Expenses</div>
+                                <div class="card-value" id="totalExpenses">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #007bff;">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">Net Profit</div>
+                                <div class="card-value" id="totalNet">$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="income-section">
+                        <h3><i class="fas fa-table"></i> Chi Tiết Báo Cáo</h3>
+                        <div class="income-table-container">
+                            <table class="income-table" id="incomeTable">
+                                <thead>
+                                    <tr>
+                                        <th>Ngày</th>
+                                        <th>Gross (Doanh thu)</th>
+                                        <th>Wages (Lương)</th>
+                                        <th>Rent (Thuê)</th>
+                                        <th>Expenses (Chi tiêu)</th>
+                                        <th>Net (Lợi nhuận)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="incomeTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Sub-tab -->
+                <div id="settings-payroll" class="payroll-tab-content">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-cog"></i> Cài Đặt Tiền Thuê</h3>
+                        <form id="rentSettingsForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="rentAmount">Tiền thuê (AUD):</label>
+                                <input type="text" id="rentAmount" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rentPeriod">Chu kỳ:</label>
+                                <select id="rentPeriod" class="form-control">
+                                    <option value="daily">Hàng ngày</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Lưu Cài Đặt
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-key"></i> Đổi Mật Khẩu</h3>
+                        <form id="changePasswordForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="oldPassword">Mật khẩu cũ:</label>
+                                <input type="password" id="oldPassword" class="form-control" required placeholder="Nhập mật khẩu cũ...">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Mật khẩu mới:</label>
+                                <input type="password" id="newPassword" class="form-control" required placeholder="Nhập mật khẩu mới...">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Xác nhận mật khẩu:</label>
+                                <input type="password" id="confirmPassword" class="form-control" required placeholder="Nhập lại mật khẩu mới...">
+                            </div>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-key"></i> Đổi Mật Khẩu
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Đang tải...</p>
+        </div>
+    </div>
+
+    <!-- PIN Modal for Expenses -->
+    <div id="expensesPinModal" class="modal">
+        <div class="modal-content pin-modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Xác thực mã PIN</h3>
+            </div>
+            <div class="pin-display">
+                <div class="pin-dots">
+                    <div class="pin-dot" id="pinDot1"></div>
+                    <div class="pin-dot" id="pinDot2"></div>
+                    <div class="pin-dot" id="pinDot3"></div>
+                    <div class="pin-dot" id="pinDot4"></div>
+                    <div class="pin-dot" id="pinDot5"></div>
+                    <div class="pin-dot" id="pinDot6"></div>
+                </div>
+                <div id="expensesPinError" class="error-message" style="display: none;"></div>
+            </div>
+            <div class="pin-keypad">
+                <div class="keypad-row">
+                    <button class="pin-key" data-number="1">1</button>
+                    <button class="pin-key" data-number="2">2</button>
+                    <button class="pin-key" data-number="3">3</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="pin-key" data-number="4">4</button>
+                    <button class="pin-key" data-number="5">5</button>
+                    <button class="pin-key" data-number="6">6</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="pin-key" data-number="7">7</button>
+                    <button class="pin-key" data-number="8">8</button>
+                    <button class="pin-key" data-number="9">9</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="pin-key pin-key-empty"></button>
+                    <button class="pin-key" data-number="0">0</button>
+                    <button class="pin-key pin-key-backspace" id="pinBackspace">
+                        <i class="fas fa-backspace"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="pin-actions">
+                <button type="button" id="expensesPinCancel" class="btn btn-secondary">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expense Modal -->
+    <div id="expenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="expenseModalTitle">Thêm Chi Tiêu</h3>
+                <span class="close" id="closeExpenseModal">&times;</span>
+            </div>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label for="expenseDate">Ngày:</label>
+                    <input type="date" id="expenseDate" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseCategory">Loại chi tiêu:</label>
+                    <select id="expenseCategory" class="form-control" required>
+                        <option value="">Chọn loại chi tiêu</option>
+                        <option value="materials">Vật liệu</option>
+                        <option value="utilities">Điện nước</option>
+                        <option value="rent">Thuê mặt bằng</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseDescription">Mô tả:</label>
+                    <input type="text" id="expenseDescription" class="form-control" placeholder="VD: Mua sơn móng tay" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseAmount">Số tiền (AUD):</label>
+                    <input type="number" id="expenseAmount" class="form-control" step="0.01" min="0.01" placeholder="0.00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseNotes">Ghi chú (tùy chọn):</label>
+                    <textarea id="expenseNotes" class="form-control" rows="3" placeholder="Ghi chú thêm..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelExpenseBtn">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="saveExpenseBtn">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="alert-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.5.2/js/tabulator.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Check if Chart.js loaded
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js failed to load from CDN');
+            // Try fallback CDN
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js';
+            script.onload = function() {
+                console.log('Chart.js loaded from fallback CDN');
+            };
+            script.onerror = function() {
+                console.error('Chart.js failed to load from both CDNs');
+                alert('Chart.js không thể load từ CDN. Vui lòng kiểm tra kết nối internet.');
+            };
+            document.head.appendChild(script);
+        } else {
+            console.log('Chart.js loaded successfully from official CDN');
+        }
+    </script>
+    <script src="keypad.js"></script>
+    <script src="web-api.js"></script>
+    <script src="expenses-simple.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>

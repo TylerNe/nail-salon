@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>Expenses System Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Controls</h3>
+        <button onclick="runExpensesTest()">Run Full Test</button>
+        <button onclick="testAddExpense()">Test Add Expense</button>
+        <button onclick="testGetExpenses()">Test Get Expenses</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Manual Test</h3>
+        <button onclick="addTestExpense()">Add Test Expense</button>
+        <button onclick="loadExpenses()">Load Expenses</button>
+        <button onclick="updateFirstExpense()">Update First Expense</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Results</h3>
+        <div id="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Expenses Table</h3>
+        <table id="expensesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="expensesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="preload.js"></script>
+    <script src="expenses-simple.js"></script>
+    
+    <script>
+        let currentExpenses = [];
+        
+        function log(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            resultsDiv.appendChild(div);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        async function addTestExpense() {
+            try {
+                log('Adding test expense...', 'info');
+                const testExpense = {
+                    expense_date: new Date().toISOString().split('T')[0],
+                    category: 'materials',
+                    description: 'Manual test expense',
+                    amount_cents: 1500,
+                    notes: 'Added manually'
+                };
+                
+                const result = await window.api.expensesAdd(testExpense);
+                if (result.success) {
+                    log(`Expense added successfully with ID: ${result.id}`, 'success');
+                    loadExpenses();
+                } else {
+                    log(`Failed to add expense: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`Error adding expense: ${error.message}`, 'error');
+            }
+        }
+        
+        async function loadExpenses() {
+            try {
+                log('Loading expenses...', 'info');
+                const today = new Date().toISOString().split('T')[0];
+                const result = await window.api.expensesGetAll(today, null, null);
+                
+                if (result.success) {
+                    currentExpenses = result.data;
+                    log(`Loaded ${currentExpenses.length} expenses`, 'success');
+                    updateExpensesTable();
+                } else {
+                    log(`Failed to load expenses: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`Error loading expenses: ${error.message}`, 'error');
+            }
+        }
+        
+        function updateExpensesTable() {
+            const tbody = document.getElementById('expensesTableBody');
+            tbody.innerHTML = '';
+            
+            currentExpenses.forEach(expense => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${expense.id}</td>
+                    <td>${expense.expense_date}</td>
+                    <td>${expense.category}</td>
+                    <td>${expense.description}</td>
+                    <td>$${(expense.amount_cents / 100).toFixed(2)}</td>
+                    <td>${expense.notes || ''}</td>
+                    <td>
+                        <button onclick="editExpense(${expense.id})">Edit</button>
+                        <button onclick="deleteExpense(${expense.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        async function editExpense(id) {
+            try {
+                log(`Editing expense ID: ${id}`, 'info');
+                const updateData = {
+                    expense_date: new Date().toISOString().split('T')[0],
+                    category: 'utilities',
+                    description: 'Updated expense',
+                    amount_cents: 2500,
+                    notes: 'Updated manually'
+                };
+                
+                const result = await window.api.expensesUpdate(id, updateData);
+                if (result.success) {
+                    log(`Expense ${id} updated successfully`, 'success');
+                    loadExpenses();
+                } else {
+                    log(`Failed to update expense: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`Error updating expense: ${error.message}`, 'error');
+            }
+        }
+        
+        async function deleteExpense(id) {
+            try {
+                log(`Deleting expense ID: ${id}`, 'info');
+                const result = await window.api.expensesDelete(id);
+                if (result.success) {
+                    log(`Expense ${id} deleted successfully`, 'success');
+                    loadExpenses();
+                } else {
+                    log(`Failed to delete expense: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`Error deleting expense: ${error.message}`, 'error');
+            }
+        }
+        
+        async function updateFirstExpense() {
+            if (currentExpenses.length > 0) {
+                await editExpense(currentExpenses[0].id);
+            } else {
+                log('No expenses to update', 'error');
+            }
+        }
+        
+        // Auto-load expenses on page load
+        window.addEventListener('load', () => {
+            log('Page loaded, testing API availability...', 'info');
+            if (typeof window.api !== 'undefined') {
+                log('API is available', 'success');
+                loadExpenses();
+            } else {
+                log('API is not available', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

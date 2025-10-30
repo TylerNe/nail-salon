@@ -1,0 +1,129 @@
+{
+  "name": "staff-revenue-manager",
+  "version": "1.0.0",
+  "description": "Ứng dụng quản lý doanh thu nhân viên với Electron + SQLite",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-win-x64": "electron-builder --win --x64",
+    "build-win-ia32": "electron-builder --win --ia32",
+    "build-win-arm64": "electron-builder --win --arm64",
+    "build-simple": "electron-builder --config electron-builder-simple.json",
+    "build-portable": "electron-builder --config electron-builder-simple.json --win --x64",
+    "pack-win": "electron-packager . \"Staff Revenue Manager\" --platform=win32 --arch=x64 --out=dist --overwrite",
+    "pack-all": "electron-packager . \"Staff Revenue Manager\" --platform=win32 --arch=all --out=dist --overwrite",
+    "build-all": "npm run build-win-x64 && npm run build-win-ia32 && npm run build-win-arm64",
+    "dist": "electron-builder --publish=never",
+    "dist-all": "electron-builder --win --x64 --ia32 --arm64 --publish=never"
+  },
+  "keywords": [
+    "electron",
+    "sqlite",
+    "revenue",
+    "staff",
+    "management"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4",
+    "electron-packager": "^17.1.2",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.2.2",
+    "chart.js": "^4.4.0",
+    "express": "^4.21.2",
+    "tabulator-tables": "^5.5.2",
+    "xlsx": "^0.18.5"
+  },
+  "build": {
+    "appId": "com.staffrevenue.manager",
+    "productName": "Staff Revenue Manager",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "!dist/**/*",
+      "!*.md",
+      "!assets/icon.png",
+      "node_modules/better-sqlite3/**/*",
+      "node_modules/tabulator-tables/**/*",
+      "node_modules/xlsx/**/*",
+      "node_modules/chart.js/**/*",
+      "node_modules/express/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/icon.png",
+        "to": "icon.png"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "requestedExecutionLevel": "asInvoker",
+      "publisherName": "Staff Revenue Manager",
+      "verifyUpdateCodeSignature": false,
+      "sign": false,
+      "certificateFile": null,
+      "certificatePassword": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "installerIcon": "assets/icon.png",
+      "uninstallerIcon": "assets/icon.png",
+      "installerHeaderIcon": "assets/icon.png",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Staff Revenue Manager",
+      "artifactName": "${productName}-${version}-${arch}-setup.${ext}",
+      "include": "installer.nsh",
+      "script": "installer.nsh"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-${arch}-portable.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png",
+      "category": "public.app-category.business"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Office"
+    }
+  }
+}
