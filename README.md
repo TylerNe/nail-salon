@@ -1,3 +1,53 @@
+# SparkleHome Cleaning — Static Website
+
+A fast, responsive, single-page website for a house cleaning service. Ready to deploy on GitHub Pages.
+
+## Features
+
+- Modern, responsive UI with accessible navigation
+- Sections: Services, Pricing, How it Works, Booking Form, Reviews, FAQ
+- Booking/contact form powered by Formspree (no backend required)
+- SEO meta tags, social share preview hooks, favicon hooks
+- Custom 404 page for GitHub Pages
+
+## Local Development
+
+Just open `index.html` in your browser. No build step is required.
+
+## Configure the Form
+
+1. Go to Formspree and create a new form.
+2. Replace the `action` attribute in `index.html` booking form with your Form ID:
+
+```html
+<form method="POST" action="https://formspree.io/f/your-form-id">
+```
+
+3. Optionally, add reCAPTCHA or honeypots for spam protection.
+
+## Deploy to GitHub Pages
+
+Option A — Project Pages:
+1. Push this folder to a GitHub repository.
+2. In GitHub → Settings → Pages:
+   - Source: Deploy from a branch.
+   - Branch: `main` (or `master`) / root (`/`).
+3. Save. Your site will be available at `https://<username>.github.io/<repo>/`.
+
+Option B — User/Organization Pages:
+1. Use a repo named `<username>.github.io`.
+2. Push to `main` and Pages will serve from root automatically.
+
+## Optional
+
+- Update `og:image`, `og:url`, and contact details in `index.html`.
+- Add `assets/hero.jpg`, `assets/favicon.png`, `assets/og-image.png` for visuals.
+- Add a custom domain via `CNAME` if you have one.
+
+## License
+
+MIT — feel free to use and adapt.
+
 # 💅 Luxury Nails & Beauty Salon Website
 
 Website một trang sang trọng cho tiệm nail & spa với thiết kế cao cấp.

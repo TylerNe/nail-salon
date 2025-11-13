@@ -1,964 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- ============ SEO META TAGS ============ -->
-    <title>Precision Nails & Beauty | Nail Salon Noarlunga | Manicure, Pedicure & Spa - Colonnades SA</title>
-    <meta name="description" content="Premium nail salon in Noarlunga SA offering acrylic nails, gel nails, BIAB, manicure, pedicure, facial treatments, waxing, eyelash extensions and massage. Located at Colonnades Shopping Centre. Book your beauty appointment today!">
-    <meta name="keywords" content="nail salon Noarlunga, beauty salon Noarlunga, acrylic nails Noarlunga, gel nails Adelaide, pedicure Noarlunga SA, manicure Adelaide, facial treatment Adelaide, eyelash extensions Noarlunga, waxing South Australia, massage Noarlunga, bridal nail packages Adelaide, SNS nails, BIAB nails, Colonnades Shopping Centre, nail salon near me, beauty salon near me">
-    <meta name="author" content="Precision Nails & Beauty">
-    <meta name="robots" content="index, follow">
-    <meta name="geo.region" content="AU-SA">
-    <meta name="geo.placename" content="Noarlunga, South Australia">
-    <meta name="geo.position" content="-35.136770;138.527053">
-    <meta name="ICBM" content="-35.136770, 138.527053">
-    
-    <!-- ============ OPEN GRAPH TAGS (Facebook, Instagram) ============ -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Precision Nails & Beauty | Premier Nail Salon in Noarlunga SA">
-    <meta property="og:description" content="Experience luxury nail care and beauty treatments at Precision Nails & Beauty. Acrylic nails, gel manicures, pedicures, facials, waxing & more. Located at Colonnades Shopping Centre, Noarlunga SA.">
-    <meta property="og:url" content="https://tylerne.github.io/nail-salon/">
-    <meta property="og:site_name" content="Precision Nails & Beauty">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_AU">
-    
-    <!-- ============ TWITTER CARD TAGS ============ -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Precision Nails & Beauty | Nail Salon Noarlunga SA">
-    <meta name="twitter:description" content="Premium nail salon offering acrylic nails, gel nails, manicures, pedicures, facials & beauty treatments. Colonnades Shopping Centre, Noarlunga.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80">
-    
-    <!-- ============ MOBILE & THEME ============ -->
-    <meta name="theme-color" content="#D4AF37">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Precision Nails">
-    
-    <!-- ============ CANONICAL URL ============ -->
-    <link rel="canonical" href="https://tylerne.github.io/nail-salon/">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- ============ JSON-LD STRUCTURED DATA (Schema.org) ============ -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BeautySalon",
-      "name": "Precision Nails & Beauty",
-      "image": [
-        "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80",
-        "https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=1200&q=80",
-        "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=1200&q=80"
-      ],
-      "@id": "https://tylerne.github.io/nail-salon/",
-      "url": "https://tylerne.github.io/nail-salon/",
-      "telephone": "+61883263979",
-      "email": "precision.nails.beauty@gmail.com",
-      "priceRange": "$10 - $250",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Shop SP027, Colonnades Shopping Centre, Lower Level (near Coles)",
-        "addressLocality": "Noarlunga",
-        "addressRegion": "SA",
-        "postalCode": "5168",
-        "addressCountry": "AU"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -35.136770,
-        "longitude": 138.527053
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Friday"],
-          "opens": "09:00",
-          "closes": "17:30"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Thursday",
-          "opens": "09:00",
-          "closes": "21:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "09:00",
-          "closes": "17:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Sunday",
-          "opens": "09:30",
-          "closes": "16:30"
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/precisionnailsbeauty/",
-        "https://www.instagram.com/nail.beauty.colonnades"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Beauty Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Acrylic Nails",
-              "description": "Full set acrylic nails with various finishes including ombre, pink & white powder"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "BIAB / Gel Builder Nails",
-              "description": "Builder gel nail extensions for natural-looking, durable nails"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Manicures & Pedicures",
-              "description": "Spa, deluxe, and shellac manicure and pedicure treatments"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "SNS Dipping System",
-              "description": "SNS powder nail dipping system for long-lasting color"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Facial Treatments",
-              "description": "Microdermabrasion, microneedling, hydrodermabrasion facials"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Waxing Services",
-              "description": "Full body waxing including Brazilian, legs, arms, and face"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Eyelash Extensions",
-              "description": "Classic, volume, hybrid, and mega volume lash extensions"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Massage Therapy",
-              "description": "Relaxation massage and dry needling acupuncture therapy"
-            }
-          }
-        ]
-      },
-      "areaServed": {
-        "@type": "GeoCircle",
-        "geoMidpoint": {
-          "@type": "GeoCoordinates",
-          "latitude": -35.136770,
-          "longitude": 138.527053
-        },
-        "geoRadius": "25000",
-        "description": "Serving Noarlunga, Adelaide, and surrounding South Australia areas"
-      }
-    }
-    </script>
-</head>
-<body>
-    <!-- ========================================
-         HEADER & NAVIGATION
-         ======================================== -->
-    <header>
-        <nav>
-            <a href="#home" class="logo">PRECISION NAILS</a>
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#about">Contact</a></li>
-            </ul>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SparkleHome Cleaning — Professional House Cleaning Services</title>
+    <meta name="description" content="Reliable, eco-friendly house cleaning service. One-time, weekly, bi-weekly, and move-out cleans. Instant online booking and transparent pricing." />
+    <meta name="keywords" content="house cleaning, home cleaning, maid service, deep clean, move out cleaning" />
+    <meta name="theme-color" content="#1f7a8c" />
+    <meta property="og:title" content="SparkleHome Cleaning — Professional House Cleaning Services" />
+    <meta property="og:description" content="Reliable, eco-friendly house cleaning. Book online in minutes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/og-image.png" />
+    <meta property="og:url" content="https:/adebroclean.pro/" />
+    <link rel="icon" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="header">
+      <div class="container header__row">
+        <a class="logo" href="#home" aria-label="SparkleHome — Home">
+          <span class="logo__mark">✨</span> SparkleHome
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+          <ul id="primaryNav" class="nav__list">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a class="btn btn--sm" href="#book">Book now</a></li>
+          </ul>
         </nav>
+      </div>
     </header>
 
-    <!-- ========================================
-         HERO SECTION WITH IMAGE SLIDER
-         ======================================== -->
-    <section id="home" class="hero">
-        <!-- UPGRADED: Added background image slider with 4 slides -->
-        <!-- SEO: Added descriptive alt text in background images -->
-        <div class="hero-slider">
-            <div class="hero-slide active" style="background-image: url('assets/images/slide1.jpg'), url('https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1600&q=80');" role="img" aria-label="Luxury nail salon interior at Precision Nails & Beauty Noarlunga"></div>
-            <div class="hero-slide" style="background-image: url('assets/images/slide2.jpg'), url('https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=1600&q=80');" role="img" aria-label="Beautiful gel manicure with elegant nail art at our Adelaide salon"></div>
-            <div class="hero-slide" style="background-image: url('assets/images/slide3.jpg'), url('https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=1600&q=80');" role="img" aria-label="Premium pedicure spa treatment at Precision Nails Colonnades"></div>
-            <div class="hero-slide" style="background-image: url('assets/images/slide4.jpg'), url('https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=1600&q=80');" role="img" aria-label="Professional acrylic nail application at our Noarlunga beauty salon"></div>
+    <main id="main">
+      <section id="home" class="hero">
+        <div class="container hero__grid">
+          <div class="hero__content">
+            <h1>Come home to <span class="text-accent">clean</span>.</h1>
+            <p class="hero__subtitle">Professional, eco-friendly house cleaning you can trust. Simple pricing, flexible scheduling, and guaranteed satisfaction.</p>
+            <div class="hero__actions">
+              <a class="btn" href="#book">Book your clean</a>
+              <a class="btn btn--ghost" href="#pricing">See pricing</a>
+            </div>
+            <ul class="hero__bullets">
+              <li>Background-checked cleaners</li>
+              <li>Supplies included, eco products available</li>
+              <li>100% satisfaction guarantee</li>
+            </ul>
+          </div>
+          <div class="hero__image" aria-hidden="true">
+            <img src="assets/hiiii.jpg" alt="Professional home cleaning" class="hero__img" />
+          </div>
         </div>
-        
-        <div class="hero-content">
-            <!-- SEO: Optimized H1 with location keywords -->
-            <h1>Premier Nail Salon in Noarlunga, South Australia | Precision Nails & Beauty</h1>
-            <p>Fall in Love with the Art of Nails at Colonnades Shopping Centre</p>
-            <button class="btn-primary" id="bookNowBtn" aria-label="Book your nail salon appointment at Precision Nails & Beauty">Book Your Appointment</button>
+      </section>
+
+      <section id="services" class="section">
+        <div class="container">
+          <h2 class="section__title">Services</h2>
+          <p class="section__lead">One-time deep cleans or ongoing maintenance—choose what fits your life.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>Standard Clean</h3>
+              <p>Perfect for upkeep. Kitchen, bathrooms, common areas, and bedrooms.</p>
+              <ul class="list">
+                <li>Dusting and surfaces</li>
+                <li>Floors vacuumed and mopped</li>
+                <li>Trash removal</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Deep Clean</h3>
+              <p>Extra detail for neglected areas. Ideal for first-time visits.</p>
+              <ul class="list">
+                <li>Detailed kitchen & baths</li>
+                <li>Baseboards, fixtures, vents</li>
+                <li>Inside cabinets add-on</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Move-In / Move-Out</h3>
+              <p>Top-to-bottom cleaning before move-in or after move-out.</p>
+              <ul class="list">
+                <li>Inside cabinets and appliances</li>
+                <li>All surfaces and floors</li>
+                <li>Final polish for showings</li>
+              </ul>
+            </article>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- ========================================
-         SERVICES SECTION
-         ======================================== -->
-    <section id="services" class="animate-on-scroll">
-        <!-- SEO: Optimized H2 with location keywords -->
-        <h2 class="section-title">Our Premium Nail & Beauty Services in Noarlunga</h2>
-        <p class="section-subtitle">Indulge in our premium treatments crafted for your perfect experience at Colonnades Shopping Centre, Adelaide</p>
-        
-        <!-- SEO: Local keyword paragraph -->
-        <div style="text-align: center; max-width: 900px; margin: 0 auto 2rem; line-height: 1.8; color: var(--text-dark);">
-            <p>Welcome to <strong>Precision Nails & Beauty</strong>, your trusted <strong>nail salon in Noarlunga</strong>, South Australia. Located conveniently at Colonnades Shopping Centre, we specialize in <strong>acrylic nails, gel nails, BIAB</strong>, luxury <strong>manicures and pedicures</strong>, advanced <strong>facial treatments</strong>, professional <strong>waxing</strong>, stunning <strong>eyelash extensions</strong>, and therapeutic <strong>massage services</strong>. Proudly serving the Adelaide South region, our experienced beauty technicians are dedicated to delivering exceptional results in a relaxing and elegant environment.</p>
+      <section id="pricing" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">Transparent Pricing</h2>
+          <p class="section__lead">Flat, honest rates. No surprises.</p>
+          <div class="pricing">
+            <div class="price-card">
+              <h3>Studio / 1 Bed</h3>
+              <div class="price">$99</div>
+              <p>Standard clean. Deep clean +$60.</p>
+              <a class="btn btn--sm" href="#book">Book</a>
+            </div>
+            <div class="price-card price-card--featured">
+              <h3>2–3 Beds</h3>
+              <div class="price">$149</div>
+              <p>Standard clean. Deep clean +$80.</p>
+              <a class="btn btn--sm" href="#book">Book</a>
+            </div>
+            <div class="price-card">
+              <h3>4+ Beds</h3>
+              <div class="price">Custom</div>
+              <p>Tell us your needs for a quick quote.</p>
+              <a class="btn btn--sm" href="#book">Get quote</a>
+            </div>
+          </div>
+          <p class="hint">Recurring discounts: 10% weekly • 7% bi-weekly • 5% monthly</p>
         </div>
-        
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <button class="btn-primary inline-book-btn" onclick="document.getElementById('floatingBookBtn').click()">
-                <i class="fas fa-calendar-alt"></i> Book Your Service Now
-            </button>
+      </section>
+
+      <section id="how" class="section">
+        <div class="container">
+          <h2 class="section__title">How it works</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step__num">1</div>
+              <h3>Tell us about your home</h3>
+              <p>Bedrooms, bathrooms, extras, and your preferred date.</p>
+            </div>
+            <div class="step">
+              <div class="step__num">2</div>
+              <h3>We confirm and assign</h3>
+              <p>Background-checked cleaner scheduled. Updates by email.</p>
+            </div>
+            <div class="step">
+              <div class="step__num">3</div>
+              <h3>Enjoy your sparkle</h3>
+              <p>Walk through with your cleaner. Not perfect? We’ll make it right.</p>
+            </div>
+          </div>
         </div>
-        
-        <div class="services-grid">
-            <!-- Acrylic Full Set -->
-            <div class="service-card">
-                <h3 class="service-header">Acrylic Full Set</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>White Tip/Overlay</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>With Shellac Colour</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>With Shellac French</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Full Set White & Pink Powder</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Ombre</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      </section>
 
-            <!-- Acrylic Refill -->
-            <div class="service-card">
-                <h3 class="service-header">Acrylic Refill</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>With Normal</span>
-                            <span class="service-price">$50</span>
-                        </li>
-                        <li>
-                            <span>With Shellac</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>With Shellac French</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>White & Pink Powder</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Ombre</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                    </ul>
+      <section id="book" class="section section--accent">
+        <div class="container">
+          <h2 class="section__title">Book in minutes</h2>
+          <p class="section__lead">No account needed. You’ll receive an instant email confirmation.</p>
+          <form id="bookingForm" class="form" method="POST" action="#" data-whatsapp="61426619904">
+            <div class="form__grid">
+              <label>
+                <span>Full name</span>
+                <input type="text" name="name" placeholder="Jane Doe" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="jane@example.com" required />
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" placeholder="+1 555 123 4567" required />
+              </label>
+              <label>
+                <span>Address</span>
+                <input type="text" name="address" placeholder="123 Main St, City" required />
+              </label>
+              <label>
+                <span>Bedrooms</span>
+                <select name="bedrooms" required>
+                  <option value="" disabled selected>Select</option>
+                  <option>Studio</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4+</option>
+                </select>
+              </label>
+              <label>
+                <span>Bathrooms</span>
+                <select name="bathrooms" required>
+                  <option value="" disabled selected>Select</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3+</option>
+                </select>
+              </label>
+              <label class="full">
+                <span>Preferred date</span>
+                <input type="date" name="date" required />
+              </label>
+              <label class="full">
+                <span>Extras</span>
+                <div class="checkboxes">
+                  <label><input type="checkbox" name="extras" value="Inside fridge" /> Inside fridge</label>
+                  <label><input type="checkbox" name="extras" value="Inside oven" /> Inside oven</label>
+                  <label><input type="checkbox" name="extras" value="Windows" /> Windows</label>
+                  <label><input type="checkbox" name="extras" value="Laundry" /> Laundry</label>
                 </div>
+              </label>
+              <label class="full">
+                <span>Notes</span>
+                <textarea name="notes" rows="4" placeholder="Parking info, pets, access, etc."></textarea>
+              </label>
             </div>
-
-            <!-- BIAB / Gel Builder -->
-            <div class="service-card">
-                <h3 class="service-header">BIAB / Gel Builder</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Full Set on Actual Nails</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Full Set with Tips</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>Refill on Actual Nails</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Refill BIAB with Shellac</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="form__actions">
+              <button class="btn" type="submit">Request booking</button>
+              <div id="formMsg" class="form__msg" role="status" aria-live="polite"></div>
             </div>
-
-            <!-- Manicures -->
-            <div class="service-card">
-                <h3 class="service-header">Manicures</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Nails Cut, Buff & Shape</span>
-                            <span class="service-price">$10</span>
-                        </li>
-                        <li>
-                            <span>Buff, Shape & Polish</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                        <li>
-                            <span>Buff, Shape & Shellac</span>
-                            <span class="service-price">$35</span>
-                        </li>
-                        <li>
-                            <span>Regular Manicure with Nail Polish</span>
-                            <span class="service-price">$35</span>
-                        </li>
-                        <li>
-                            <span>Regular Manicure with Shellac Colour</span>
-                            <span class="service-price">$45</span>
-                        </li>
-                        <li>
-                            <span>Spa Manicure with Nail Polish</span>
-                            <span class="service-price">$45</span>
-                        </li>
-                        <li>
-                            <span>Spa Manicure with Shellac Colour</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>Deluxe Manicure with Nail Polish</span>
-                            <span class="service-price">$50</span>
-                        </li>
-                        <li>
-                            <span>Deluxe Manicure with Shellac Colour</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Skin Rejuvenation Spa Manicure (Nail Polish)</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Skin Rejuvenation Manicure (Shellac)</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Pedicures -->
-            <div class="service-card">
-                <h3 class="service-header">Pedicures</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Nails Cut, Buff & Shape</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                        <li>
-                            <span>Buff, Shape & Polish</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                        <li>
-                            <span>Buff, Shape & Shellac</span>
-                            <span class="service-price">$40</span>
-                        </li>
-                        <li>
-                            <span>Regular Pedicure with Nail Polish</span>
-                            <span class="service-price">$45</span>
-                        </li>
-                        <li>
-                            <span>Regular Pedicure with Shellac Colour</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>Spa Pedicure with Nail Polish</span>
-                            <span class="service-price">$50</span>
-                        </li>
-                        <li>
-                            <span>Spa Pedicure with Shellac Colour</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Deluxe Pedicure with Nail Polish</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Deluxe Pedicure with Shellac Colour</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>Detox Pedicure with Nail Polish</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                        <li>
-                            <span>Detox Pedicure with Shellac Colour</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Skin Rejuvenation Spa Pedicure (Nail Polish)</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>Skin Rejuvenation Pedicure (Shellac)</span>
-                            <span class="service-price">$80</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- SNS / Gel Dipping -->
-            <div class="service-card">
-                <h3 class="service-header">SNS / Gel Dipping</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Full Set on Actual Nail</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>Full Set with Tips</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                        <li>
-                            <span>Full Set French Tips</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Full Set Ombre</span>
-                            <span class="service-price">$80</span>
-                        </li>
-                        <li>
-                            <span>Refill on Actual Nails</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Refill SNS Colour</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Refill French Tips</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>Refill Ombre</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Nail Design & Additional -->
-            <div class="service-card">
-                <h3 class="service-header">Nail Design & Additional</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Cat Eye Full Set</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                        <li>
-                            <span>Chrome Full Set</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                        <li>
-                            <span>Nail Art Full Set</span>
-                            <span class="service-price">$20</span>
-                        </li>
-                        <li>
-                            <span>Permanent Gloss</span>
-                            <span class="service-price">$5</span>
-                        </li>
-                        <li>
-                            <span>Acrylic/SNS Remove Only</span>
-                            <span class="service-price">$20</span>
-                        </li>
-                        <li>
-                            <span>Acrylic/SNS Remove with Service</span>
-                            <span class="service-price">$10</span>
-                        </li>
-                        <li>
-                            <span>Shellac Remove Only</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                        <li>
-                            <span>Shellac French Toes</span>
-                            <span class="service-price">$10</span>
-                        </li>
-                        <li>
-                            <span>Shellac French Fingers</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Facial Treatments -->
-            <div class="service-card">
-                <h3 class="service-header">Facial Treatments</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Customised Facial 30 Minutes</span>
-                            <span class="service-price">$80</span>
-                        </li>
-                        <li>
-                            <span>Deluxe Facial 45 Minutes</span>
-                            <span class="service-price">$110</span>
-                        </li>
-                        <li>
-                            <span>Ultimate Glow Facial 1 Hour</span>
-                            <span class="service-price">$140</span>
-                        </li>
-                        <li>
-                            <span>Microdermabrasion & Hydrodermabrasion Facial 30 Min</span>
-                            <span class="service-price">$95</span>
-                        </li>
-                        <li>
-                            <span>Microdermabrasion & Hydrodermabrasion Facial 45 Min</span>
-                            <span class="service-price">$125</span>
-                        </li>
-                        <li>
-                            <span>Microdermabrasion & Hydrodermabrasion Facial 60 Min</span>
-                            <span class="service-price">$160</span>
-                        </li>
-                        <li>
-                            <span>Pro Microneedling</span>
-                            <span class="service-price">$115</span>
-                        </li>
-                        <li>
-                            <span>Pro Microneedling with Pro Restore</span>
-                            <span class="service-price">$165</span>
-                        </li>
-                        <li>
-                            <span>Pro Power Peel</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                        <li>
-                            <span>Pro Power Peel with Eye Peel + Ion Active Serum</span>
-                            <span class="service-price">$110</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Massages -->
-            <div class="service-card">
-                <h3 class="service-header">Massages</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>30 Minutes</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                        <li>
-                            <span>45 Minutes</span>
-                            <span class="service-price">$85</span>
-                        </li>
-                        <li>
-                            <span>60 Minutes</span>
-                            <span class="service-price">$105</span>
-                        </li>
-                        <li>
-                            <span>75 Minutes</span>
-                            <span class="service-price">$135</span>
-                        </li>
-                        <li>
-                            <span>90 Minutes</span>
-                            <span class="service-price">$160</span>
-                        </li>
-                        <li>
-                            <span>Massage Dry Needling Acupuncture (45 Min)</span>
-                            <span class="service-price">$95</span>
-                        </li>
-                        <li>
-                            <span>Massage Dry Needling Acupuncture (60 Min)</span>
-                            <span class="service-price">$120</span>
-                        </li>
-                        <li>
-                            <span>Massage Dry Needling Acupuncture (75 Min)</span>
-                            <span class="service-price">$150</span>
-                        </li>
-                        <li>
-                            <span>Massage Dry Needling Acupuncture (90 Min)</span>
-                            <span class="service-price">$175</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Waxing Services -->
-            <div class="service-card">
-                <h3 class="service-header">Waxing</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Lip</span>
-                            <span class="service-price">$10</span>
-                        </li>
-                        <li>
-                            <span>Chin</span>
-                            <span class="service-price">$15</span>
-                        </li>
-                        <li>
-                            <span>Under Arm</span>
-                            <span class="service-price">$20</span>
-                        </li>
-                        <li>
-                            <span>Eyebrows</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                        <li>
-                            <span>Both Side Face</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                        <li>
-                            <span>Full Face</span>
-                            <span class="service-price">$65</span>
-                        </li>
-                        <li>
-                            <span>Bikini Line X</span>
-                            <span class="service-price">$30</span>
-                        </li>
-                        <li>
-                            <span>G-String XX</span>
-                            <span class="service-price">$50</span>
-                        </li>
-                        <li>
-                            <span>Brazillian XXX</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Men Brazillian</span>
-                            <span class="service-price">$90</span>
-                        </li>
-                        <li>
-                            <span>1/2 Arm</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                        <li>
-                            <span>3/4 Arm</span>
-                            <span class="service-price">$35</span>
-                        </li>
-                        <li>
-                            <span>Full Arm</span>
-                            <span class="service-price">$40</span>
-                        </li>
-                        <li>
-                            <span>1/2 Leg</span>
-                            <span class="service-price">$28</span>
-                        </li>
-                        <li>
-                            <span>1/2 Upper Leg</span>
-                            <span class="service-price">$33</span>
-                        </li>
-                        <li>
-                            <span>3/4 Leg</span>
-                            <span class="service-price">$40</span>
-                        </li>
-                        <li>
-                            <span>Full Leg</span>
-                            <span class="service-price">$50</span>
-                        </li>
-                        <li>
-                            <span>Full Back</span>
-                            <span class="service-price">$55</span>
-                        </li>
-                        <li>
-                            <span>Chest</span>
-                            <span class="service-price">$25</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Beauty Treatments -->
-            <div class="service-card">
-                <h3 class="service-header">Beauty Treatments</h3>
-                <div class="service-list">
-                    <ul>
-                        <li>
-                            <span>Eyelash Extension - Classic/Full Set</span>
-                            <span class="service-price">$130</span>
-                        </li>
-                        <li>
-                            <span>Eyelash Extension - Volume/Full Set</span>
-                            <span class="service-price">$130</span>
-                        </li>
-                        <li>
-                            <span>Eyelash Extension - Hybrid/Full Set</span>
-                            <span class="service-price">$130</span>
-                        </li>
-                        <li>
-                            <span>Eyelash Extension - Mega Volume/Full Set</span>
-                            <span class="service-price">$130</span>
-                        </li>
-                        <li>
-                            <span>Refill Up to 10 Days</span>
-                            <span class="service-price">$75</span>
-                        </li>
-                        <li>
-                            <span>Refill Up to 20 Days</span>
-                            <span class="service-price">$90</span>
-                        </li>
-                        <li>
-                            <span>Lash Lift</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Lash Lift & Tint</span>
-                            <span class="service-price">$70</span>
-                        </li>
-                        <li>
-                            <span>Eyebrow Laminate</span>
-                            <span class="service-price">$60</span>
-                        </li>
-                        <li>
-                            <span>Eyebrow/Eyeliner/Lip Liner (Permanent Make-up)</span>
-                            <span class="service-price">$250+</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <p class="hint">By submitting, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</p>
+          </form>
         </div>
-    </section>
+      </section>
 
-    <!-- ========================================
-         GALLERY SECTION
-         ======================================== -->
-    <section id="gallery" class="animate-on-scroll">
-        <!-- SEO: Optimized H2 heading -->
-        <h2 class="section-title">Nail Art & Beauty Gallery - Noarlunga SA</h2>
-        <p class="section-subtitle">Browse our stunning collection of nail art and beauty treatments from Precision Nails & Beauty</p>
-        
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <!-- SEO: Added descriptive alt text with location keywords -->
-                <img src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=400&q=80" alt="Elegant French manicure nail design at Precision Nails & Beauty Noarlunga" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>French Manicure</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=400&q=80" alt="Luxury spa pedicure treatment at our nail salon in Noarlunga Adelaide" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>Luxury Pedicure</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=400&q=80" alt="Creative acrylic nail art design by Precision Nails Colonnades SA" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>Creative Nail Art</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=400&q=80" alt="Professional gel manicure and shellac nails Noarlunga South Australia" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>Gel Manicure</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80" alt="Relaxing spa treatment and facial at beauty salon Adelaide Noarlunga" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>Spa Treatment</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&q=80" alt="Luxury nail salon interior at Colonnades Shopping Centre Noarlunga" loading="lazy">
-                <div class="gallery-overlay">
-                    <p>Elegant Designs</p>
-                </div>
-            </div>
+      <section id="reviews" class="section">
+        <div class="container">
+          <h2 class="section__title">What customers say</h2>
+          <div class="reviews">
+            <figure class="review">
+              <blockquote>They were punctual, thorough, and my place has never looked better. Highly recommend!</blockquote>
+              <figcaption>— Alex R.</figcaption>
+            </figure>
+            <figure class="review">
+              <blockquote>Booked a deep clean before moving in. Sparkling results and stress-free.</blockquote>
+              <figcaption>— Priya K.</figcaption>
+            </figure>
+            <figure class="review">
+              <blockquote>Love the eco products option and simple pricing. Great communication.</blockquote>
+              <figcaption>— Marcus D.</figcaption>
+            </figure>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- ========================================
-         ABOUT & CONTACT SECTION
-         ======================================== -->
-    <section id="about" class="animate-on-scroll">
-        <!-- SEO: Optimized H2 heading -->
-        <h2 class="section-title">About Precision Nails & Beauty - Your Local Noarlunga Salon</h2>
-        <p class="section-subtitle">Where luxury meets exceptional service in the heart of Adelaide South</p>
-        
-        <div class="about-content">
-            <div class="about-text">
-                <!-- SEO: Optimized H3 heading -->
-                <h3>Welcome to Your Premier Beauty Destination in Noarlunga</h3>
-                <p>
-                    Located in the heart of <strong>Colonnades Shopping Centre, Noarlunga, SA 5168</strong>, <strong>Precision Nails & Beauty</strong> is the ideal 
-                    destination for anyone seeking premium <strong>nail care</strong> and <strong>beauty treatments</strong> in the Adelaide South region. Our <strong>nail salon</strong> takes pride in providing 
-                    our valued customers with exceptional services and complete customer satisfaction.
-                </p>
-                <p>
-                    We specialize in a comprehensive range of services including <strong>acrylic nails</strong>, <strong>gel nails</strong>, <strong>BIAB (Builder in a Bottle)</strong>, 
-                    <strong>SNS dipping powder</strong>, luxury <strong>manicures and pedicures</strong>, advanced <strong>facial treatments</strong> (microdermabrasion, microneedling, hydrodermabrasion), 
-                    professional <strong>waxing services</strong>, stunning <strong>eyelash extensions</strong>, <strong>eyebrow treatments</strong>, therapeutic <strong>massage therapy</strong>, and specialized <strong>bridal packages</strong>. 
-                    Our highly skilled beauty technicians and nail artists are professionally trained to provide exactly what you deserve.
-                </p>
-                <p>
-                    Every visit to our <strong>beauty salon in Noarlunga</strong> is designed to be a moment of relaxation and self-care. From the 
-                    moment you walk through our doors at <strong>Colonnades Shopping Centre</strong>, you'll be treated to personalized attention and 
-                    professional service that exceeds your expectations. Serving the greater Adelaide area including Noarlunga, Seaford, Morphett Vale, 
-                    Christies Beach, and surrounding South Australian suburbs.
-                </p>
-                <button class="btn-primary" id="bookNowBtn2" aria-label="Book your appointment at Precision Nails & Beauty Noarlunga">Book Now</button>
-            </div>
-            
-            <div class="contact-info">
-                <!-- SEO: Optimized H3 heading -->
-                <h3>Contact Our Noarlunga Salon</h3>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Shop SP027, Colonnades Shopping Centre, Lower Level (near Coles), Noarlunga, SA 5168</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <span><a href="tel:+61883263979" style="color: inherit; text-decoration: none;">(08) 8326 3979</a></span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span><a href="mailto:precision.nails.beauty@gmail.com" style="color: inherit; text-decoration: none;">precision.nails.beauty@gmail.com</a></span>
-                </div>
-                <div class="contact-item">
-                    <i class="far fa-clock"></i>
-                    <span>Mon-Wed, Fri: 9:00 AM - 5:30 PM</span>
-                </div>
-                <div class="contact-item">
-                    <i class="far fa-clock"></i>
-                    <span>Thursday: 9:00 AM - 9:00 PM</span>
-                </div>
-                <div class="contact-item">
-                    <i class="far fa-clock"></i>
-                    <span>Saturday: 9:00 AM - 5:00 PM</span>
-                </div>
-                <div class="contact-item">
-                    <i class="far fa-clock"></i>
-                    <span>Sunday: 9:30 AM - 4:30 PM</span>
-                </div>
-                
-                <!-- Google Maps Embed for Colonnades Shopping Centre -->
-                <div class="map-container">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3270.8977729859384!2d138.52461431523973!3d-35.13677098031829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ab0cdcf9f5c0b75%3A0x89f8a7b7f8a9b7c0!2sColonnades%20Shopping%20Centre!5e0!3m2!1sen!2sau!4v1634567890123!5m2!1sen!2sau" 
-                        allowfullscreen="" 
-                        loading="lazy"
-                        title="Precision Nails & Beauty Location - Colonnades Shopping Centre, Noarlunga SA">
-                    </iframe>
-                </div>
-            </div>
+      <section id="faq" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">FAQ</h2>
+          <div class="faq">
+            <details>
+              <summary>Do I need to be home?</summary>
+              <p>No, as long as we have access instructions. Many customers provide a lockbox code or front desk access.</p>
+            </details>
+            <details>
+              <summary>Are supplies included?</summary>
+              <p>Yes. We bring all essentials. Eco-friendly products available on request at no extra charge.</p>
+            </details>
+            <details>
+              <summary>What’s your guarantee?</summary>
+              <p>If we miss anything, tell us within 24 hours and we’ll return to make it right—free.</p>
+            </details>
+            <details>
+              <summary>How do recurring discounts work?</summary>
+              <p>Discounts apply automatically after your second recurring service: weekly 10%, bi-weekly 7%, monthly 5%.</p>
+            </details>
+          </div>
         </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- ========================================
-         FOOTER
-         ======================================== -->
-    <footer>
-        <!-- SEO: Additional local keyword paragraph in footer -->
-        <div style="max-width: 1000px; margin: 0 auto 1.5rem; padding: 0 1rem;">
-            <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem;">
-                <strong>Precision Nails & Beauty</strong> is your trusted <strong>nail salon in Noarlunga</strong>, South Australia. We proudly serve the Adelaide South community with premium <strong>acrylic nails</strong>, <strong>gel nails</strong>, <strong>BIAB</strong>, <strong>manicures</strong>, <strong>pedicures</strong>, <strong>facial treatments</strong>, <strong>waxing</strong>, <strong>eyelash extensions</strong>, and <strong>massage therapy</strong>. Conveniently located at <strong>Colonnades Shopping Centre</strong>, we welcome clients from Noarlunga, Seaford, Morphett Vale, Christies Beach, Reynella, and surrounding South Australian areas.
-            </p>
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div class="footer__brand">
+          <a class="logo" href="#home"><span class="logo__mark">✨</span> SparkleHome</a>
+          <p>Professional house cleaning. Licensed and insured.</p>
+          <p class="muted">© <span id="year"></span> SparkleHome Cleaning. All rights reserved.</p>
         </div>
-        <p>&copy; 2025 Precision Nails & Beauty Salon. All rights reserved.</p>
-        <p><strong>Nail Salon Noarlunga SA</strong> | Shop SP027, Colonnades Shopping Centre, Lower Level, Noarlunga, SA 5168 | Phone: <a href="tel:+61883263979" style="color: var(--pale-gold); text-decoration: none;">(08) 8326 3979</a></p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-            <strong>Keywords:</strong> nail salon Noarlunga, beauty salon Adelaide, acrylic nails, gel nails, BIAB nails, manicure, pedicure, facial treatments, waxing, eyelash extensions, massage Noarlunga SA
-        </p>
-        <div class="social-links">
-            <a href="https://www.facebook.com/precisionnailsbeauty/" target="_blank" rel="noopener noreferrer" aria-label="Visit Precision Nails & Beauty on Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.instagram.com/nail.beauty.colonnades" target="_blank" rel="noopener noreferrer" aria-label="Follow Precision Nails & Beauty on Instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://plus.google.com/precisionnailsandbeauty" target="_blank" rel="noopener noreferrer" aria-label="Find Precision Nails & Beauty on Google">
-                <i class="fab fa-google-plus-g"></i>
-            </a>
-            <a href="mailto:precision.nails.beauty@gmail.com" aria-label="Email Precision Nails & Beauty">
-                <i class="fas fa-envelope"></i>
-            </a>
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#how">How it works</a></li>
+              <li><a href="#faq">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+              <li><a href="tel:+15551234567">+1 (555) 123‑4567</a></li>
+              <li>Mon–Sat 8:00–18:00</li>
+            </ul>
+          </div>
         </div>
+      </div>
     </footer>
 
-    <!-- ========================================
-         FLOATING BOOK NOW BUTTON
-         ======================================== -->
-    <button class="floating-book-btn" id="floatingBookBtn" aria-label="Book Now">
-        <i class="fas fa-calendar-check"></i>
-        <span>Book Now</span>
-    </button>
-
-    <!-- ========================================
-         BOOKING MODAL
-         ======================================== -->
-    <div class="modal" id="bookingModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Book Your Appointment</h2>
-                <button class="close-modal" id="closeModal" aria-label="Close">&times;</button>
-            </div>
-            <!-- UPGRADED: GoCheckIn Booking System iframe with improved styling -->
-            <iframe 
-                class="booking-iframe"
-                src="https://booking.gocheckin.net/v2/17401/" 
-                title="Book Appointment">
-            </iframe>
-            
-            <!-- UPGRADED: Added fallback button to open booking in new tab -->
-            <div class="booking-fallback">
-                <p style="text-align: center; margin-top: 1rem; color: var(--text-dark); font-size: 0.9rem;">
-                    Having trouble with the booking form?
-                </p>
-                <a href="https://booking.gocheckin.net/v2/17401/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-                    Open Booking in New Tab
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="js/script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
+
+
