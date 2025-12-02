@@ -471,6 +471,7 @@ function updateIncomeTotals() {
     let totalGross = 0;
     let totalWages = 0;
     let totalRent = 0;
+    let totalGST = 0;
     let totalExpenses = 0;
     let totalNet = 0;
     
@@ -478,6 +479,7 @@ function updateIncomeTotals() {
         totalGross += item.gross_cents;
         totalWages += item.wages_cents;
         totalRent += item.rent_allocated_cents;
+        totalGST += (item.gst_cents || 0);
         totalExpenses += (item.expenses_cents || 0);
         totalNet += item.net_cents;
     });
@@ -485,6 +487,7 @@ function updateIncomeTotals() {
     document.getElementById('totalGross').textContent = formatCurrency(totalGross);
     document.getElementById('totalWages').textContent = formatCurrency(totalWages);
     document.getElementById('totalRent').textContent = formatCurrency(totalRent);
+    document.getElementById('totalGST').textContent = formatCurrency(totalGST);
     document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
     document.getElementById('totalNet').textContent = formatCurrency(totalNet);
     

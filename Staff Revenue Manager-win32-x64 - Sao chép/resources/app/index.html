@@ -184,6 +184,32 @@
             <div class="staff-list">
                 <div id="staffTable"></div>
             </div>
+
+            <div class="staff-leaderboard">
+                <h4><i class="fas fa-trophy"></i> Bảng xếp hạng Staff</h4>
+                <div class="staff-leaderboard-range">
+                    <span>Khoảng ngày:</span>
+                    <input type="date" id="staffLeaderboardStart" class="form-control staff-leaderboard-date">
+                    <span>đến</span>
+                    <input type="date" id="staffLeaderboardEnd" class="form-control staff-leaderboard-date">
+                    <button id="staffLeaderboardApply" class="btn btn-primary btn-sm">Lọc</button>
+                    <span id="staffLeaderboardRangeText" class="staff-leaderboard-range-text"></span>
+                </div>
+                <div class="staff-leaderboard-table-wrapper">
+                    <table class="staff-leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Hạng</th>
+                                <th>Staff</th>
+                                <th>Số khách</th>
+                                <th>Doanh thu (AUD)</th>
+                                <th>Avg / Customer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffLeaderboardBody"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- Work Schedule Tab -->
@@ -424,6 +450,15 @@
                             <div class="card-content">
                                 <div class="card-label">Total Rent</div>
                                 <div class="card-value" id="totalRent">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon" style="background: #6f42c1;">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-label">GST (10%)</div>
+                                <div class="card-value" id="totalGST">$0.00</div>
                             </div>
                         </div>
                         <div class="summary-card">

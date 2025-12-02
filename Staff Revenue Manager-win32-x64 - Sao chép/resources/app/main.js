@@ -404,7 +404,9 @@ function startWebServer() {
           const grossCents = grossRow.total;
           const wagesCents = wagesRow.total;
           const expensesCents = expensesRow.total;
-          const netCents = grossCents - wagesCents - rentPerDay - expensesCents;
+          // 10% GST on gross
+          const gstCents = Math.round(grossCents * 0.10);
+          const netCents = grossCents - gstCents - wagesCents - rentPerDay - expensesCents;
           
           return {
             date: work_date,
@@ -412,6 +414,7 @@ function startWebServer() {
             wages_cents: wagesCents,
             rent_allocated_cents: rentPerDay,
             expenses_cents: expensesCents,
+            gst_cents: gstCents,
             net_cents: netCents
           };
         });
@@ -2034,7 +2037,9 @@ ipcMain.handle('income:getSummary', (event, startDate, endDate) => {
       const grossCents = grossRow.total;
       const wagesCents = wagesRow.total;
       const expensesCents = expensesRow.total;
-      const netCents = grossCents - wagesCents - rentPerDay - expensesCents;
+      // 10% GST on gross
+      const gstCents = Math.round(grossCents * 0.10);
+      const netCents = grossCents - gstCents - wagesCents - rentPerDay - expensesCents;
       
       return {
         date: work_date,
@@ -2042,6 +2047,7 @@ ipcMain.handle('income:getSummary', (event, startDate, endDate) => {
         wages_cents: wagesCents,
         rent_allocated_cents: rentPerDay,
         expenses_cents: expensesCents,
+        gst_cents: gstCents,
         net_cents: netCents
       };
     });

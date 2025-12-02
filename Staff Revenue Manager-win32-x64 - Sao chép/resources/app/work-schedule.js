@@ -275,6 +275,19 @@ function openAddEntryDialog(staffId, staffName, workDate) {
     modal.appendChild(dialog);
     document.body.appendChild(modal);
     
+    // Focus amount input and open numeric keypad on click
+    const amountInput = dialog.querySelector('#dialogEntryAmount');
+    if (amountInput) {
+        amountInput.focus();
+        amountInput.addEventListener('click', (e) => {
+            e.preventDefault();
+            amountInput.blur();
+            if (typeof openNumericKeypadForInput === 'function') {
+                openNumericKeypadForInput(amountInput);
+            }
+        });
+    }
+    
     // Handle form submit
     const form = dialog.querySelector('#addEntryDialogForm');
     form.addEventListener('submit', async (e) => {

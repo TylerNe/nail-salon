@@ -442,6 +442,95 @@ body {
     border-radius: 12px;
     border: 1px solid #dee2e6;
     box-shadow: 0 4px 20px rgba(0, 123, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Staff weekly leaderboard */
+.staff-leaderboard {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 60%, #e8f0ff 100%);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid rgba(0, 123, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 123, 255, 0.12);
+}
+
+.staff-leaderboard h4 {
+    margin-bottom: 0.35rem;
+    color: #343a40;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.staff-leaderboard h4 i {
+    color: #ffc107;
+    text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+}
+
+.staff-leaderboard-range {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.75rem;
+}
+
+.staff-leaderboard-table-wrapper {
+    max-height: 260px;
+    overflow: auto;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #e0e6f5;
+}
+
+.staff-leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.staff-leaderboard-table thead {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: #ffffff;
+}
+
+.staff-leaderboard-table th,
+.staff-leaderboard-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+}
+
+.staff-leaderboard-table th:nth-child(1),
+.staff-leaderboard-table td:nth-child(1),
+.staff-leaderboard-table th:nth-child(3),
+.staff-leaderboard-table td:nth-child(3),
+.staff-leaderboard-table th:nth-child(4),
+.staff-leaderboard-table td:nth-child(4),
+.staff-leaderboard-table th:nth-child(5),
+.staff-leaderboard-table td:nth-child(5) {
+    text-align: center;
+}
+
+.staff-leaderboard-table tbody tr:nth-child(odd) {
+    background: #f8f9fa;
+}
+
+.staff-leaderboard-table tbody tr:nth-child(even) {
+    background: #ffffff;
+}
+
+.staff-leaderboard-table tbody tr:hover {
+    background: rgba(0, 123, 255, 0.08);
+}
+
+.staff-leaderboard-table tbody tr:first-child td {
+    font-weight: 600;
+    color: #007bff;
+}
+
+.staff-leaderboard-table tbody tr:first-child td:nth-child(1) {
+    font-size: 1.05rem;
 }
 
 /* Work Schedule Management */

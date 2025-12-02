@@ -124,6 +124,15 @@ function setupEventListeners() {
     
     // Add staff form
     document.getElementById('addStaffForm').addEventListener('submit', handleAddStaff);
+
+    // Staff leaderboard filter
+    const staffLeaderboardBtn = document.getElementById('staffLeaderboardApply');
+    if (staffLeaderboardBtn) {
+        staffLeaderboardBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadStaffLeaderboard();
+        });
+    }
     
     
     // Refresh button
@@ -242,6 +251,7 @@ function switchTab(tabName) {
         checkExpensesPin();
     } else if (tabName === 'staff') {
         loadStaffData();
+        loadStaffLeaderboard();
     } else if (tabName === 'work-schedule') {
         loadWorkScheduleData();
     } else if (tabName === 'transactions') {
@@ -289,6 +299,8 @@ async function loadStaffData() {
         staffList = await window.api.getStaff();
         updateStaffSelect();
         updateStaffTable();
+        // Cập nhật lại bảng xếp hạng khi danh sách staff thay đổi
+        loadStaffLeaderboard();
     } catch (error) {
         console.error('Error loading staff:', error);
         throw error;
@@ -1028,6 +1040,145 @@ function initializeStaffTable() {
 function updateStaffTable() {
     if (!staffTable) return;
     staffTable.setData(staffList);
+}
+
+// ==================== STAFF WEEKLY LEADERBOARD ====================
+
+// Lấy khoảng tuần hiện tại (Thứ 2 - Chủ nhật) theo local time, trả về YYYY-MM-DD
+function getCurrentWeekRange() {
+    const today = new Date();
+    const day = today.getDay(); // 0 = Sunday, 1 = Monday, ...
+    const diffToMonday = (day === 0 ? -6 : 1 - day);
+
+    const monday = new Date(today);
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(today.getDate() + diffToMonday);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    const toISO = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${dayStr}`;
+    };
+
+    return { start: toISO(monday), end: toISO(sunday) };
+}
+
+// Tải và tính bảng xếp hạng staff theo khoảng ngày (mặc định: tuần hiện tại)
+async function loadStaffLeaderboard() {
+    try {
+        if (!staffList || staffList.length === 0) {
+            return;
+        }
+
+        const startInput = document.getElementById('staffLeaderboardStart');
+        const endInput = document.getElementById('staffLeaderboardEnd');
+
+        let start;
+        let end;
+
+        if (startInput && endInput && startInput.value && endInput.value) {
+            start = startInput.value;
+            end = endInput.value;
+        } else {
+            const range = getCurrentWeekRange();
+            start = range.start;
+            end = range.end;
+            if (startInput && endInput) {
+                startInput.value = start;
+                endInput.value = end;
+            }
+        }
+
+        // Lấy tất cả entries trong tuần hiện tại
+        const entries = await window.api.getEntries(start, end);
+
+        const statsByStaff = {};
+
+        entries.forEach(entry => {
+            const staffId = entry.staff_id;
+            if (!statsByStaff[staffId]) {
+                statsByStaff[staffId] = {
+                    staff_id: staffId,
+                    staff_name: entry.staff_name || '',
+                    customers: 0,
+                    total_cents: 0
+                };
+            }
+            statsByStaff[staffId].customers += 1;           // 1 entry = 1 khách
+            statsByStaff[staffId].total_cents += entry.amount_cents || 0;
+        });
+
+        // Convert sang array, chỉ lấy staff đang active, join tên chuẩn từ staffList
+        const leaderboard = Object.values(statsByStaff)
+            .map(item => {
+                const staff = staffList.find(s => s.id === item.staff_id);
+                return {
+                    ...item,
+                    staff_name: staff ? staff.name : item.staff_name,
+                    active: staff ? staff.active : 1
+                };
+            })
+            .filter(item => item.active)
+            .sort((a, b) => b.total_cents - a.total_cents || b.customers - a.customers);
+
+        renderStaffLeaderboard(leaderboard, start, end);
+    } catch (error) {
+        console.error('Error loading staff leaderboard:', error);
+    }
+}
+
+function renderStaffLeaderboard(leaderboard, startDate, endDate) {
+    const tbody = document.getElementById('staffLeaderboardBody');
+    const rangeLabel = document.getElementById('staffLeaderboardRangeText');
+
+    if (!tbody || !rangeLabel) return;
+
+    rangeLabel.textContent = `(${window.api.formatDate(startDate)} - ${window.api.formatDate(endDate)})`;
+
+    tbody.innerHTML = '';
+
+    if (!leaderboard || leaderboard.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 4;
+        td.textContent = 'Không có dữ liệu trong tuần này';
+        td.style.textAlign = 'center';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
+
+    leaderboard.forEach((item, index) => {
+        const tr = document.createElement('tr');
+
+        const rankTd = document.createElement('td');
+        rankTd.textContent = index + 1;
+
+        const nameTd = document.createElement('td');
+        nameTd.textContent = item.staff_name || `Staff #${item.staff_id}`;
+
+        const customersTd = document.createElement('td');
+        customersTd.textContent = item.customers;
+
+        const totalTd = document.createElement('td');
+        totalTd.textContent = formatCurrency(item.total_cents);
+
+        const avgTd = document.createElement('td');
+        const avgCents = item.customers ? Math.round(item.total_cents / item.customers) : 0;
+        avgTd.textContent = formatCurrency(avgCents);
+
+        tr.appendChild(rankTd);
+        tr.appendChild(nameTd);
+        tr.appendChild(customersTd);
+        tr.appendChild(totalTd);
+        tr.appendChild(avgTd);
+
+        tbody.appendChild(tr);
+    });
 }
 
 // Handle staff edit
