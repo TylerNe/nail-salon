@@ -49,9 +49,11 @@ function startWebServer() {
     // API routes for database operations
     expressApp.get('/api/staff', (req, res) => {
       try {
-        const staff = db.prepare('SELECT * FROM staff ORDER BY name').all();
+        const staff = db.prepare('SELECT * FROM staff WHERE active = 1 ORDER BY name').all();
+        console.log(`[EXPRESS API] [GET STAFF] Returning ${staff.length} active staff from database`);
         res.json(staff);
       } catch (error) {
+        console.error('[EXPRESS API] [GET STAFF] Error:', error);
         res.status(500).json({ error: error.message });
       }
     });
@@ -80,40 +82,56 @@ function startWebServer() {
       try {
         const { id } = req.params;
         const { name } = req.body;
-        db.prepare('UPDATE staff SET name = ? WHERE id = ?').run(name, id);
-        res.json({ success: true });
+        
+        // Validate: tên không được rỗng
+        const trimmedName = (name || '').trim();
+        if (!trimmedName) {
+          return res.status(400).json({ success: false, error: 'Tên staff không được để trống' });
+        }
+        
+        // Lấy tên cũ trước khi update để log
+        const oldStaff = db.prepare('SELECT id, name FROM staff WHERE id = ?').get(id);
+        if (!oldStaff) {
+          return res.status(404).json({ success: false, error: `Staff với ID ${id} không tồn tại` });
+        }
+        
+        console.log(`[EXPRESS API] [UPDATE STAFF] ID: ${id}, Old name: "${oldStaff.name}", New name: "${trimmedName}"`);
+        
+        // Kiểm tra trùng tên với staff khác (trừ chính nó)
+        const existingStaff = db.prepare('SELECT id, name FROM staff WHERE LOWER(name) = LOWER(?) AND id != ?').get(trimmedName, id);
+        if (existingStaff) {
+          return res.status(400).json({ success: false, error: `Tên "${trimmedName}" đã tồn tại (Staff ID: ${existingStaff.id})` });
+        }
+        
+        // Cập nhật tên
+        const stmt = db.prepare('UPDATE staff SET name = ? WHERE id = ?');
+        stmt.run(trimmedName, id);
+        
+        // Verify update thành công bằng cách query lại
+        const updatedStaff = db.prepare('SELECT id, name FROM staff WHERE id = ?').get(id);
+        if (updatedStaff && updatedStaff.name === trimmedName) {
+          console.log(`[EXPRESS API] [UPDATE STAFF] ✅ Success! Verified: ID ${id} now has name "${updatedStaff.name}"`);
+          res.json({ success: true });
+        } else {
+          console.error(`[EXPRESS API] [UPDATE STAFF] ❌ Failed! Expected name "${trimmedName}" but got "${updatedStaff ? updatedStaff.name : 'null'}"`);
+          res.status(500).json({ success: false, error: 'Update failed - verification failed' });
+        }
       } catch (error) {
+        console.error('[EXPRESS API] [UPDATE STAFF] Error:', error);
         res.status(500).json({ error: error.message });
       }
     });
     
-    // Delete staff endpoint
+    // Delete staff endpoint (thực chất là deactivate để giữ lại dữ liệu)
     expressApp.delete('/api/staff/:id', (req, res) => {
       try {
         const { id } = req.params;
         
-        // Kiểm tra xem staff có dữ liệu liên quan không
-        const entriesCount = db.prepare('SELECT COUNT(*) as count FROM entries WHERE staff_id = ?').get(id).count;
-        const shiftsCount = db.prepare('SELECT COUNT(*) as count FROM shifts WHERE staff_id = ?').get(id).count;
-        const workScheduleCount = db.prepare('SELECT COUNT(*) as count FROM work_schedule WHERE staff_id = ?').get(id).count;
-        
-        const totalRelatedData = entriesCount + shiftsCount + workScheduleCount;
-        
-        if (totalRelatedData > 0) {
-          // Nếu có dữ liệu liên quan, chỉ deactivate
-          const stmt = db.prepare('UPDATE staff SET active = 0 WHERE id = ?');
-          stmt.run(id);
-          res.json({ success: true, message: 'Staff deactivated (has existing data)' });
-        } else {
-          // Nếu không có dữ liệu liên quan, xóa hoàn toàn
-          // Xóa staff_rates trước (vì có foreign key constraint)
-          db.prepare('DELETE FROM staff_rates WHERE staff_id = ?').run(id);
-          
-          // Sau đó xóa staff
-          const stmt = db.prepare('DELETE FROM staff WHERE id = ?');
-          stmt.run(id);
-          res.json({ success: true, message: 'Staff deleted' });
-        }
+        // LUÔN LUÔN chỉ deactivate staff để giữ lại dữ liệu (entries, shifts, etc.)
+        // Không bao giờ xóa thật để không mất gross pay và lịch sử
+        const stmt = db.prepare('UPDATE staff SET active = 0 WHERE id = ?');
+        stmt.run(id);
+        res.json({ success: true, message: 'Staff đã được vô hiệu hóa (dữ liệu được giữ lại)' });
       } catch (error) {
         res.status(500).json({ error: error.message });
       }
@@ -1535,13 +1553,15 @@ ipcMain.handle('get-network-info', async () => {
 ipcMain.handle('get-staff', () => {
   try {
     if (!isDatabaseReady()) {
-      console.error('Database not ready');
+      console.error('[GET STAFF] Database not ready');
       return [];
     }
     const stmt = db.prepare('SELECT * FROM staff WHERE active = 1 ORDER BY name');
-    return stmt.all();
+    const staff = stmt.all();
+    console.log(`[GET STAFF] Returning ${staff.length} active staff from database`);
+    return staff;
   } catch (error) {
-    console.error('Error getting staff:', error);
+    console.error('[GET STAFF] Error:', error);
     return [];
   }
 });
@@ -1574,11 +1594,42 @@ ipcMain.handle('update-staff', (event, id, name) => {
     if (!isDatabaseReady()) {
       return { success: false, error: 'Database not ready' };
     }
+    
+    // Validate: tên không được rỗng
+    const trimmedName = (name || '').trim();
+    if (!trimmedName) {
+      return { success: false, error: 'Tên staff không được để trống' };
+    }
+    
+    // Lấy tên cũ trước khi update để log
+    const oldStaff = db.prepare('SELECT id, name FROM staff WHERE id = ?').get(id);
+    if (!oldStaff) {
+      return { success: false, error: `Staff với ID ${id} không tồn tại` };
+    }
+    
+    console.log(`[UPDATE STAFF] ID: ${id}, Old name: "${oldStaff.name}", New name: "${trimmedName}"`);
+    
+    // Kiểm tra trùng tên với staff khác (trừ chính nó)
+    const existingStaff = db.prepare('SELECT id, name FROM staff WHERE LOWER(name) = LOWER(?) AND id != ?').get(trimmedName, id);
+    if (existingStaff) {
+      return { success: false, error: `Tên "${trimmedName}" đã tồn tại (Staff ID: ${existingStaff.id})` };
+    }
+    
+    // Cập nhật tên
     const stmt = db.prepare('UPDATE staff SET name = ? WHERE id = ?');
-    stmt.run(name, id);
-    return { success: true };
+    const result = stmt.run(trimmedName, id);
+    
+    // Verify update thành công bằng cách query lại
+    const updatedStaff = db.prepare('SELECT id, name FROM staff WHERE id = ?').get(id);
+    if (updatedStaff && updatedStaff.name === trimmedName) {
+      console.log(`[UPDATE STAFF] ✅ Success! Verified: ID ${id} now has name "${updatedStaff.name}"`);
+      return { success: true };
+    } else {
+      console.error(`[UPDATE STAFF] ❌ Failed! Expected name "${trimmedName}" but got "${updatedStaff ? updatedStaff.name : 'null'}"`);
+      return { success: false, error: 'Update failed - verification failed' };
+    }
   } catch (error) {
-    console.error('Error updating staff:', error);
+    console.error('[UPDATE STAFF] Error:', error);
     return { success: false, error: error.message };
   }
 });
@@ -1589,30 +1640,13 @@ ipcMain.handle('delete-staff', (event, id) => {
       return { success: false, error: 'Database not ready' };
     }
     
-    // Kiểm tra xem staff có dữ liệu liên quan không
-    const entriesCount = db.prepare('SELECT COUNT(*) as count FROM entries WHERE staff_id = ?').get(id).count;
-    const shiftsCount = db.prepare('SELECT COUNT(*) as count FROM shifts WHERE staff_id = ?').get(id).count;
-    const workScheduleCount = db.prepare('SELECT COUNT(*) as count FROM work_schedule WHERE staff_id = ?').get(id).count;
-    
-    const totalRelatedData = entriesCount + shiftsCount + workScheduleCount;
-    
-    if (totalRelatedData > 0) {
-      // Nếu có dữ liệu liên quan, chỉ deactivate
-      const stmt = db.prepare('UPDATE staff SET active = 0 WHERE id = ?');
-      stmt.run(id);
-      return { success: true, message: 'Staff deactivated (has existing data)' };
-    } else {
-      // Nếu không có dữ liệu liên quan, xóa hoàn toàn
-      // Xóa staff_rates trước (vì có foreign key constraint)
-      db.prepare('DELETE FROM staff_rates WHERE staff_id = ?').run(id);
-      
-      // Sau đó xóa staff
-      const stmt = db.prepare('DELETE FROM staff WHERE id = ?');
-      stmt.run(id);
-      return { success: true, message: 'Staff deleted' };
-    }
+    // LUÔN LUÔN chỉ deactivate staff để giữ lại dữ liệu (entries, shifts, etc.)
+    // Không bao giờ xóa thật để không mất gross pay và lịch sử
+    const stmt = db.prepare('UPDATE staff SET active = 0 WHERE id = ?');
+    stmt.run(id);
+    return { success: true, message: 'Staff đã được vô hiệu hóa (dữ liệu được giữ lại)' };
   } catch (error) {
-    console.error('Error deleting staff:', error);
+    console.error('Error deactivating staff:', error);
     return { success: false, error: error.message };
   }
 });

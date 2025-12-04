@@ -124,6 +124,22 @@ function setupEventListeners() {
     
     // Add staff form
     document.getElementById('addStaffForm').addEventListener('submit', handleAddStaff);
+    
+    // Edit staff form handler
+    const editStaffForm = document.getElementById('editStaffForm');
+    if (editStaffForm) {
+        editStaffForm.addEventListener('submit', handleEditStaffSubmit);
+    }
+    
+    // Close modal when clicking outside
+    const editStaffModal = document.getElementById('editStaffModal');
+    if (editStaffModal) {
+        editStaffModal.addEventListener('click', function(e) {
+            if (e.target === editStaffModal) {
+                closeEditStaffModal();
+            }
+        });
+    }
 
     // Staff leaderboard filter
     const staffLeaderboardBtn = document.getElementById('staffLeaderboardApply');
@@ -168,12 +184,12 @@ function setupEventListeners() {
     }
     
     const giftCardSearch = document.getElementById('giftCardSearch');
-    if (giftCardSearch) {
+    if (giftCardSearch && typeof loadGiftCards === 'function') {
         giftCardSearch.addEventListener('input', debounce(loadGiftCards, 300));
     }
     
     const giftCardStatusFilter = document.getElementById('giftCardStatusFilter');
-    if (giftCardStatusFilter) {
+    if (giftCardStatusFilter && typeof loadGiftCards === 'function') {
         giftCardStatusFilter.addEventListener('change', loadGiftCards);
     }
     
@@ -257,7 +273,11 @@ function switchTab(tabName) {
     } else if (tabName === 'transactions') {
         loadTransactions();
     } else if (tabName === 'gift-cards') {
-        loadGiftCards();
+        if (typeof loadGiftCards === 'function') {
+            loadGiftCards();
+        } else {
+            console.warn('loadGiftCards function not available yet');
+        }
         // Re-attach event listeners for gift cards tab
         setTimeout(() => {
             const createGiftCardBtn = document.getElementById('createGiftCardBtn');
@@ -296,13 +316,21 @@ async function loadData() {
 // Load staff data
 async function loadStaffData() {
     try {
-        staffList = await window.api.getStaff();
+        console.log('[LOAD STAFF DATA] Fetching staff from database...');
+        const freshStaffList = await window.api.getStaff();
+        console.log(`[LOAD STAFF DATA] Received ${freshStaffList.length} staff from database:`, freshStaffList.map(s => ({ id: s.id, name: s.name })));
+        
+        // Cập nhật staffList với dữ liệu mới từ database
+        staffList = freshStaffList;
+        
         updateStaffSelect();
         updateStaffTable();
         // Cập nhật lại bảng xếp hạng khi danh sách staff thay đổi
         loadStaffLeaderboard();
+        
+        console.log('[LOAD STAFF DATA] ✅ Staff data loaded and UI updated');
     } catch (error) {
-        console.error('Error loading staff:', error);
+        console.error('[LOAD STAFF DATA] ❌ Error loading staff:', error);
         throw error;
     }
 }
@@ -990,9 +1018,8 @@ function initializeStaffTable() {
             {
                 title: 'Tên Staff',
                 field: 'name',
-                width: 200,
-                editor: 'input',
-                validator: 'required'
+                width: 200
+                // Removed editor to disable inline editing - using modal instead
             },
             {
                 title: 'Trạng thái',
@@ -1181,30 +1208,82 @@ function renderStaffLeaderboard(leaderboard, startDate, endDate) {
     });
 }
 
-// Handle staff edit
-async function handleStaffEdit(cell) {
+// Handle edit staff form submit (from modal)
+async function handleEditStaffSubmit(e) {
+    e.preventDefault();
+    
+    const id = parseInt(document.getElementById('editStaffId').value);
+    let newName = document.getElementById('editStaffName').value.trim();
+    
+    console.log(`[EDIT STAFF MODAL] Form submitted for staff ID: ${id}, new name: "${newName}"`);
+    
+    if (!id) {
+        console.error('[EDIT STAFF MODAL] No staff ID provided');
+        showAlert('Lỗi: Không tìm thấy ID staff!', 'error');
+        return;
+    }
+    
+    if (!newName) {
+        showAlert('Tên staff không được để trống!', 'warning');
+        document.getElementById('editStaffName').focus();
+        return;
+    }
+    
+    // Kiểm tra trùng tên với staff khác (trừ chính nó)
+    const duplicateStaff = staffList.find(s => s.id !== id && s.name.toLowerCase() === newName.toLowerCase());
+    if (duplicateStaff) {
+        showAlert('Tên staff này đã tồn tại!', 'warning');
+        document.getElementById('editStaffName').focus();
+        document.getElementById('editStaffName').select();
+        return;
+    }
+    
+    // Lấy tên cũ để log
+    const oldStaff = staffList.find(s => s.id === id);
+    const oldName = oldStaff ? oldStaff.name : 'unknown';
+    
+    console.log(`[EDIT STAFF MODAL] Updating staff ID ${id} from "${oldName}" to "${newName}"`);
+    
     try {
-        const field = cell.getField();
-        const value = cell.getValue();
-        const row = cell.getRow().getData();
+        // Cập nhật database
+        const result = await window.api.updateStaff(id, newName);
+        console.log('[EDIT STAFF MODAL] Update result:', result);
         
-        if (field === 'name') {
-            const result = await window.api.updateStaff(row.id, value);
-            if (result.success) {
-                row.name = value;
-                showAlert('Cập nhật staff thành công!', 'success');
-                updateStaffSelect();
-                updateRevenueTable();
+        if (result.success) {
+            // Reload lại staffList từ database để đảm bảo đồng bộ
+            console.log('[EDIT STAFF MODAL] Reloading staff data from database...');
+            await loadStaffData();
+            
+            // Verify tên đã được cập nhật đúng
+            const updatedStaff = staffList.find(s => s.id === id);
+            if (updatedStaff && updatedStaff.name === newName) {
+                console.log(`[EDIT STAFF MODAL] ✅ Verified: Staff ID ${id} now has name "${updatedStaff.name}"`);
+                showAlert('Cập nhật tên staff thành công!', 'success');
             } else {
-                showAlert('Lỗi cập nhật: ' + result.error, 'error');
-                cell.restoreOldValue();
+                console.warn(`[EDIT STAFF MODAL] ⚠️ Warning: Staff name may not have updated correctly. Expected "${newName}", got "${updatedStaff ? updatedStaff.name : 'null'}"`);
+                showAlert('Cập nhật tên staff thành công, nhưng vui lòng reload để xác nhận!', 'warning');
             }
+            
+            // Đóng modal
+            closeEditStaffModal();
+            
+            // Cập nhật UI
+            updateRevenueTable();
+            // loadStaffLeaderboard() đã được gọi trong loadStaffData()
+        } else {
+            console.error('[EDIT STAFF MODAL] ❌ Update failed:', result.error);
+            showAlert('Lỗi cập nhật: ' + result.error, 'error');
         }
     } catch (error) {
-        console.error('Error editing staff:', error);
+        console.error('[EDIT STAFF MODAL] ❌ Error:', error);
         showAlert('Lỗi cập nhật: ' + error.message, 'error');
-        cell.restoreOldValue();
     }
+}
+
+// Handle staff edit (old inline editing - kept for compatibility but not used)
+async function handleStaffEdit(cell) {
+    // This function is no longer used - editing is done via modal
+    console.warn('[EDIT STAFF] handleStaffEdit called but inline editing is disabled');
 }
 
 // Handle add staff form
@@ -1247,9 +1326,12 @@ async function handleAddStaff(e) {
     }
 }
 
-// Delete staff
+// Delete staff (thực chất là deactivate để giữ lại dữ liệu)
 async function deleteStaff(id) {
-    if (!confirm('Bạn có chắc chắn muốn xóa staff này?')) {
+    const staff = staffList.find(s => s.id === id);
+    const staffName = staff ? staff.name : 'staff này';
+    
+    if (!confirm(`Bạn có chắc chắn muốn vô hiệu hóa "${staffName}"?\n\nLưu ý: Dữ liệu (entries, shifts, gross pay) sẽ được giữ lại để không bị mất thông tin.`)) {
         return;
     }
     
@@ -1257,17 +1339,23 @@ async function deleteStaff(id) {
         const result = await window.api.deleteStaff(id);
         
         if (result.success) {
-            staffList = staffList.filter(s => s.id !== id);
+            // Cập nhật active status trong staffList thay vì xóa
+            const staffIndex = staffList.findIndex(s => s.id === id);
+            if (staffIndex !== -1) {
+                staffList[staffIndex].active = 0;
+            }
+            
             updateStaffTable();
             updateStaffSelect();
             updateRevenueTable();
-            showAlert(result.message || 'Xóa staff thành công!', 'success');
+            loadStaffLeaderboard(); // Cập nhật bảng xếp hạng
+            showAlert(result.message || 'Vô hiệu hóa staff thành công!', 'success');
         } else {
-            showAlert('Lỗi xóa staff: ' + result.error, 'error');
+            showAlert('Lỗi vô hiệu hóa staff: ' + result.error, 'error');
         }
     } catch (error) {
-        console.error('Error deleting staff:', error);
-        showAlert('Lỗi xóa staff: ' + error.message, 'error');
+        console.error('Error deactivating staff:', error);
+        showAlert('Lỗi vô hiệu hóa staff: ' + error.message, 'error');
     }
 }
 
@@ -2624,9 +2712,39 @@ function openNumericKeypadForRevenueCell(cell) {
 
 // Global functions for inline event handlers
 window.editStaff = function(id) {
-    const row = staffTable.getRowFromPosition(staffTable.getRows().findIndex(r => r.getData().id === id));
-    if (row) {
-        row.getCell('name').edit();
+    console.log(`[EDIT STAFF] Opening modal for staff ID: ${id}`);
+    
+    // Tìm staff trong staffList
+    const staff = staffList.find(s => s.id === id);
+    if (!staff) {
+        console.error(`[EDIT STAFF] Staff not found with ID: ${id}`);
+        showAlert('Không tìm thấy staff để chỉnh sửa!', 'error');
+        return;
+    }
+    
+    // Điền thông tin vào modal
+    document.getElementById('editStaffId').value = id;
+    document.getElementById('editStaffName').value = staff.name;
+    
+    // Hiển thị modal
+    const modal = document.getElementById('editStaffModal');
+    if (modal) {
+        modal.style.display = 'block';
+        // Focus vào input
+        setTimeout(() => {
+            document.getElementById('editStaffName').focus();
+            document.getElementById('editStaffName').select();
+        }, 100);
+    } else {
+        console.error('[EDIT STAFF] Modal element not found');
+    }
+};
+
+window.closeEditStaffModal = function() {
+    const modal = document.getElementById('editStaffModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.getElementById('editStaffForm').reset();
     }
 };
 
@@ -2638,66 +2756,9 @@ window.openNumericKeypadForRevenueCell = openNumericKeypadForRevenueCell;
 
 // ==================== GIFT CARDS FUNCTIONS ====================
 
-function initializeGiftCardsTable() {
-    giftCardsTable = new Tabulator('#giftCardsTable', {
-        data: [],
-        layout: 'fitColumns',
-        pagination: true,
-        paginationSize: 20,
-        movableColumns: true,
-        resizableColumns: true,
-        columns: [
-            { title: 'ID', field: 'id', width: 80 },
-            { title: 'Số thẻ', field: 'card_number', width: 150 },
-            { title: 'Tên khách hàng', field: 'customer_name', width: 200 },
-            { title: 'SĐT', field: 'customer_phone', width: 120 },
-            { title: 'Giá trị ban đầu', field: 'initial_amount_cents', width: 150, formatter: currencyFormatter },
-            { title: 'Số dư còn lại', field: 'remaining_amount_cents', width: 150, formatter: currencyFormatter },
-            { title: 'Trạng thái', field: 'status', width: 120, formatter: giftCardStatusFormatter },
-            { title: 'Ngày tạo', field: 'created_at', width: 150, formatter: formatDateTime },
-            { title: 'Hết hạn', field: 'expires_at', width: 120, formatter: formatDate },
-            { title: 'Thao tác', width: 200, formatter: giftCardActionButtonsFormatter, headerSort: false }
-        ]
-    });
-}
-
-async function loadGiftCards() {
-    try {
-        console.log('loadGiftCards called');
-        showLoading();
-        
-        const status = document.getElementById('giftCardStatusFilter').value;
-        const search = document.getElementById('giftCardSearch').value;
-        
-        console.log('Calling window.api.giftCardsGetAll with:', { status, search });
-        const result = await window.api.giftCardsGetAll(status, search);
-        console.log('giftCardsGetAll result:', result);
-        
-        // Check if result is array or has success property
-        if (Array.isArray(result)) {
-            giftCardsData = result;
-        } else if (result.success) {
-            giftCardsData = result.data;
-        } else {
-            showAlert('Lỗi tải Gift Cards: ' + result.error, 'error');
-            hideLoading();
-            return;
-        }
-        
-        if (!giftCardsTable) {
-            initializeGiftCardsTable();
-        }
-        
-        giftCardsTable.setData(giftCardsData);
-        updateGiftCardsSummary();
-        
-        hideLoading();
-    } catch (error) {
-        console.error('Error loading gift cards:', error);
-        showAlert('Lỗi tải Gift Cards: ' + error.message, 'error');
-        hideLoading();
-    }
-}
+// Gift Cards functions are now in gift-cards.js
+// These functions are kept as placeholders to avoid errors if called before gift-cards.js loads
+// The actual implementations in gift-cards.js will override these
 
 function updateGiftCardsSummary() {
     const totalCards = giftCardsData.length;
@@ -2899,7 +2960,9 @@ function openCreateGiftCardDialog() {
                 showAlert(`Tạo Gift Card thành công! Số thẻ: ${result.cardNumber}`, 'success');
                 modal.remove();
                 isGiftCardModalOpen = false;
-                loadGiftCards();
+                if (typeof loadGiftCards === 'function') {
+                    loadGiftCards();
+                }
             } else {
                 showAlert('Lỗi tạo Gift Card: ' + result.error, 'error');
             }
@@ -3031,7 +3094,9 @@ async function editGiftCard(id) {
             
             if (updateResult.success) {
                 showAlert('Cập nhật Gift Card thành công!', 'success');
-                loadGiftCards();
+                if (typeof loadGiftCards === 'function') {
+                    loadGiftCards();
+                }
             } else {
                 showAlert('Lỗi cập nhật: ' + updateResult.error, 'error');
             }

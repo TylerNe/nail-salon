@@ -1,6 +1,22 @@
 // ==================== GIFT CARDS FUNCTIONS ====================
 
 function initializeGiftCardsTable() {
+    // Kiểm tra element có tồn tại không
+    const tableElement = document.getElementById('giftCardsTable');
+    if (!tableElement) {
+        console.error('Element #giftCardsTable not found');
+        return;
+    }
+    
+    // Nếu table đã được khởi tạo, destroy nó trước
+    if (giftCardsTable) {
+        try {
+            giftCardsTable.destroy();
+        } catch (e) {
+            console.warn('Error destroying existing table:', e);
+        }
+    }
+    
     giftCardsTable = new Tabulator('#giftCardsTable', {
         data: [],
         layout: 'fitColumns',
@@ -28,6 +44,14 @@ async function loadGiftCards() {
         console.log('loadGiftCards called');
         showLoading();
         
+        // Kiểm tra element có tồn tại không (tab có thể chưa được hiển thị)
+        const tableElement = document.getElementById('giftCardsTable');
+        if (!tableElement) {
+            console.warn('Gift Cards table element not found, skipping load');
+            hideLoading();
+            return;
+        }
+        
         const status = document.getElementById('giftCardStatusFilter').value;
         const search = document.getElementById('giftCardSearch').value;
         
@@ -46,8 +70,22 @@ async function loadGiftCards() {
             return;
         }
         
+        // Kiểm tra lại element trước khi khởi tạo table
+        if (!tableElement || !tableElement.offsetParent) {
+            console.warn('Gift Cards table element not visible, skipping table initialization');
+            hideLoading();
+            return;
+        }
+        
         if (!giftCardsTable) {
             initializeGiftCardsTable();
+        }
+        
+        // Kiểm tra table đã được khởi tạo thành công
+        if (!giftCardsTable) {
+            console.error('Failed to initialize gift cards table');
+            hideLoading();
+            return;
         }
         
         giftCardsTable.setData(giftCardsData);
@@ -264,4 +302,8 @@ function openCreateGiftCardDialog() {
 // Other gift card related functions (viewGiftCardDetails, editGiftCard, useGiftCard, deleteGiftCard, etc.)
 // remain the same structure as in the original renderer.js and can be added here as needed.
 
+// Expose functions globally so they can be called from renderer.js
+window.loadGiftCards = loadGiftCards;
+window.initializeGiftCardsTable = initializeGiftCardsTable;
+window.updateGiftCardsSummary = updateGiftCardsSummary;
 
